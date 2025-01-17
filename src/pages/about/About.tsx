@@ -1,11 +1,8 @@
+import Wrapper from "@/components/common/Wrapper";
 
 
 const About = () => {
-    return (
-        <div>
-            This is about Page
-        </div>
-    );
+    return <Wrapper>This is about Page</Wrapper>;
 };
 
 export default About;

@@ -1,7 +1,8 @@
+import Wrapper from "@/components/common/Wrapper";
 
 
 const AvailableCamps = () => {
-    return <div>Available Camps</div>;
+    return <Wrapper>Available Camps</Wrapper>;
 };
 
 export default AvailableCamps;

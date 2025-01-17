@@ -1,14 +1,16 @@
-import { LogIn, LogOut, Menu, X } from "lucide-react";
+import { LogIn, LogOut, Menu, Moon, Sun, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 import logo from "@/assets/svg/logo.svg";
 import ActiveLink from "./ActiveLink";
 import { Button } from "../ui/button";
+import { useTheme } from "@/providers/theme-provider";
 
 const Header = () => {
   const [user , setUser] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
   const [profile, setProfile] = useState(false);
+  const { setTheme, theme } = useTheme();
 
   const toggleMenu = () => setShowMenu(!showMenu);
 
@@ -16,7 +18,7 @@ const Header = () => {
   const hideProfile = () => setProfile(false);
 
   return (
-    <header className='shadow-md fixed top-0 left-0 right-0 bg-background z-50'>
+    <header className=' fixed top-0 left-0 right-0 bg-primary/10 z-50'>
       <div className='container mx-auto px-2.5 py-1'>
         <nav className='flex flex-row gap-6 justify-between items-center'>
           <div className='flex items-center'>
@@ -48,9 +50,23 @@ const Header = () => {
           </div>
 
           <div className='flex items-center  gap-10 text-base font-semibold [&_a]:flex [&_a]:gap-1 '>
+            <div>
+              <button
+                onClick={() =>
+                  theme === "light" ? setTheme("dark") : setTheme("light")
+                }
+                className='flex justify-center items-center'
+              >
+                {theme === "light" ? (
+                  <Sun className='rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+                ) : (
+                  <Moon className='rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+                )}
+              </button>
+            </div>
             {user !== null ? (
               <div className='relative '>
-                <div className='relative cursor-pointer'>
+                <div className='relative'>
                   <img
                     onClick={() => setProfile(!profile)}
                     src={

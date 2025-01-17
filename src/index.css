@@ -28,9 +28,6 @@ body {
   min-height: 100vh;
 }
 
-
-
-
 @layer base {
   :root {
     --background:300, 47%, 97%;
@@ -95,3 +92,63 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+  /* Dashboard */
+
+  .dashboard-sidebar {
+    @apply w-[260px];
+  }
+
+  .dashboard-sidebar.hide {
+    @apply -translate-x-full md:w-[90px] md:translate-x-0 md:hover:w-[260px];
+  }
+
+  .dashboard-sidebar.hide .profile-btn {
+    @apply mx-auto border-0 md:flex md:w-[90px] md:justify-center [&>div:nth-child(2)]:scale-0 [&>svg]:scale-0;
+  }
+
+  .dashboard-sidebar.hide .profile-btn div.text-start {
+    @apply md:hidden;
+  }
+
+  .dashboard-sidebar.hide:hover .profile-btn div.text-start {
+    @apply md:block;
+  }
+
+  .dashboard-sidebar.hide li span {
+    @apply md:hidden;
+  }
+
+  .dashboard-sidebar.hide li span.count {
+    @apply md:hidden;
+  }
+
+  .dashboard-sidebar.hide:hover li span.count {
+    @apply md:flex;
+  }
+
+  .dashboard-sidebar.hide:hover span {
+    @apply md:block;
+  }
+
+  .dashboard-sidebar.hide li svg {
+    @apply md:flex-grow;
+  }
+
+  .dashboard-sidebar.hide:hover svg {
+    @apply md:flex-grow-[0];
+  }
+
+  .dashboard-sidebar.hide:hover .profile-btn {
+    @apply border md:flex md:w-[220px] md:justify-between [&>div:nth-child(2)]:scale-100 [&>svg]:scale-100;
+  }
+
+  .dashboard-body {
+    @apply md:ml-[260px] md:w-[calc(100%-260px)];
+  }
+
+  .dashboard-body.active {
+    @apply md:ml-[90px] md:w-[calc(100%-90px)];
+  }
+
+  /* dashboard */

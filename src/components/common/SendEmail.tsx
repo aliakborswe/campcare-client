@@ -23,19 +23,9 @@ const SendEmail = () => {
         )
         .then(
           () => {
-            toast("Email sent successfully!", {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
+            toast("Email sent successfully!");
           },
           (error:any) => {
-            
             error.toast("Failed to send email. Please try again later.");
           }
         );

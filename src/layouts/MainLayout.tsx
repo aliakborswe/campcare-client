@@ -8,7 +8,7 @@ const MainLayout = () => {
     window.scrollTo({ top: 0, left: 0 ,  behavior: 'smooth' });
   }
   return (
-    <div className='bg-background'>
+    <div>
       <Header />
       <div className='min-h-screen mt-16'>
         <Outlet />
