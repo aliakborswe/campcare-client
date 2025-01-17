@@ -6,15 +6,14 @@ import ActiveLink from "./ActiveLink";
 import { Button } from "../ui/button";
 
 const Header = () => {
-  const user = useState(true);
+  const [user , setUser] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
-  const [showLogoutBtn, setShowLogoutBtn] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
+  const [profile, setProfile] = useState(false);
 
   const toggleMenu = () => setShowMenu(!showMenu);
 
   // hide manage my profile
-  const hideProfile = () => setShowProfile(false);
+  const hideProfile = () => setProfile(false);
 
   return (
     <header className='shadow-md fixed top-0 left-0 right-0 bg-background z-50'>
@@ -37,9 +36,7 @@ const Header = () => {
           >
             <div className='flex flex-col lg:flex-row gap-6 text-base font-medium text-foreground w-full'>
               <div onClick={hideProfile}>
-                <ActiveLink to='/'>
-                  Home
-                </ActiveLink>
+                <ActiveLink to='/'>Home</ActiveLink>
               </div>
               <div onClick={hideProfile}>
                 <ActiveLink to='/camps'>Available Camps</ActiveLink>
@@ -55,7 +52,7 @@ const Header = () => {
               <div className='relative '>
                 <div className='relative cursor-pointer'>
                   <img
-                    onClick={() => setShowProfile(!showProfile)}
+                    onClick={() => setProfile(!profile)}
                     src={
                       user?.photoURL ||
                       "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
@@ -63,7 +60,7 @@ const Header = () => {
                     className='w-10 aspect-square rounded-full '
                     alt='photo'
                   />
-                  {showProfile && (
+                  {profile && (
                     <div className='absolute top-[50px] border-2  w-36 flex flex-col justify-center p-2 space-y-2 bg-white right-0 rounded-xl shadow-md '>
                       <p className='text-sm'>
                         {user?.displayName || "Name not found"}
@@ -73,8 +70,9 @@ const Header = () => {
                       </div>
                       <Button
                         // onClick={handleLogout}
-                        variant={"default"}
-                        className='flex items-center gap-1 hover:bg-primary'
+                        variant={"destructive"}
+                        size={"sm"}
+                        className='flex items-center gap-1 '
                       >
                         <LogOut />
                         Logout
@@ -84,18 +82,15 @@ const Header = () => {
                 </div>
               </div>
             ) : (
-              <>
-                <ActiveLink to='/login'>
-                  <Button
-                    variant={"default"}
-                    size={"sm"}
-                    className='flex items-center gap-1  text-white'
-                  >
-                    <LogIn />
-                    Join US
-                  </Button>
-                </ActiveLink>
-              </>
+              <ActiveLink to='/login'>
+                <Button
+                  variant={"default"}
+                  className='flex items-center gap-1 hover:bg-primary'
+                >
+                  <LogIn />
+                  Join US
+                </Button>
+              </ActiveLink>
             )}
           </div>
         </nav>

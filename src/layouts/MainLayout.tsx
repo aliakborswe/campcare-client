@@ -6,7 +6,7 @@ const MainLayout = () => {
   return (
     <div className='bg-background'>
       <Header />
-      <div className='min-h-screen'>
+      <div className='min-h-screen mt-16'>
         <Outlet />
       </div>
       <Footer />
