@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils";
 import { createElement } from "react";
-import { LayoutDashboard } from "lucide-react";
+import { BadgeDollarSign, LayoutDashboard, NotepadText, UserRoundCog } from "lucide-react";
 import { NavLink, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg"
 import { Button } from "@/components/ui/button";
@@ -36,17 +36,64 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
         ref={sidebarRef}
         className='dashboard-sidebar fixed left-0 top-0 z-40 box-border h-full overflow-hidden shadow-md bg-background transition-all'
       >
-        <div className='h-[calc(100dvh-80px)] overflow-y-auto overflow-x-hidden px-3'>
+        <div className='h-[calc(100dvh-80px)] overflow-y-auto overflow-x-hidden '>
           {/* logo */}
           <SidebarLogo to='/' image={logo} label='CampCare+' />
-          <ul className='mt-4 space-y-4 border-b border-[#eee] pb-4 text-base font-medium'>
-            <SidebarLink label='Dashboard' icon={LayoutDashboard} to='/' />
+          {/* user sidebar menu */}
+          <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
+            <SidebarLink
+              label='Analytics'
+              icon={LayoutDashboard}
+              to='analytics'
+            />
+            <SidebarLink
+              label='User Profile'
+              icon={UserRoundCog}
+              to='user-profile'
+            />
+            <SidebarLink
+              label='Registered Camps'
+              icon={NotepadText}
+              to='registered-camp'
+            />
+            <SidebarLink
+              label='Payment History'
+              icon={BadgeDollarSign}
+              to='payment-history'
+            />
+          </ul>
+          {/* admin sidebar menu */}
+          <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
+            <SidebarLink
+              label='Admin Profile'
+              icon={UserRoundCog}
+              to='admin-profile'
+            />
+            <SidebarLink
+              label='Add Camp'
+              icon={UserRoundCog}
+              to='add-camp'
+            />
+            <SidebarLink
+              label='Manage Camp'
+              icon={NotepadText}
+              to='manage-camp'
+            />
+            <SidebarLink
+              label='Manage Register Camp'
+              icon={BadgeDollarSign}
+              to='manage-registered-camp'
+            />
           </ul>
         </div>
         <div className='h-[150px] space-y-4 px-3 pt-3'>
-            <Button onClick={handleLogout} variant={"destructive"} className="w-full">
-              Logout
-              </Button>
+          <Button
+            onClick={handleLogout}
+            variant={"destructive"}
+            className='w-full'
+          >
+            Logout
+          </Button>
         </div>
       </div>
       <div
