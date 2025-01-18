@@ -6,6 +6,8 @@ import { LayoutDashboard } from "lucide-react";
 import { NavLink, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg"
 import { Button } from "@/components/ui/button";
+import useAuth from "@/hooks/useAuth";
+import { toast } from "react-toastify";
 
 
 type Props = {
@@ -15,13 +17,19 @@ type Props = {
 };
 
 const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
+  const { logOut } = useAuth();
 
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/login");
-    alert("logout")
-  };
+  // handle logout button
+    const handleLogout = async () => {
+      try {
+        await logOut();
+        navigate("/");
+        toast.success("Logout Success!");
+      } catch (err: any) {
+        toast.error(err.message || "Logout Failed");
+      }
+    };
   return (
     <>
       <div

@@ -1,13 +1,15 @@
 import { LogIn, LogOut, Menu, Moon, Sun, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg";
 import ActiveLink from "./ActiveLink";
 import { Button } from "../ui/button";
 import { useTheme } from "@/providers/theme-provider";
+import useAuth from "@/hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Header = () => {
-  const [user , setUser] = useState(true);
+  const { user, logOut } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   const [profile, setProfile] = useState(false);
   const { setTheme, theme } = useTheme();
@@ -16,6 +18,19 @@ const Header = () => {
 
   // hide manage my profile
   const hideProfile = () => setProfile(false);
+
+  const navigate = useNavigate();
+  // handle logout button
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      setProfile(false);
+      navigate("/");
+      toast.success("Logout Success!");
+    } catch (err: any) {
+      toast.error(err.message || "Logout Failed");
+    }
+  };
 
   return (
     <header className=' fixed top-0 left-0 right-0 bg-primary/10 z-50'>
@@ -49,7 +64,7 @@ const Header = () => {
             </div>
           </div>
 
-          <div className='flex items-center  gap-10 text-base font-semibold [&_a]:flex [&_a]:gap-1 '>
+          <div className='flex items-center  gap-6 text-base font-semibold [&_a]:flex [&_a]:gap-1 '>
             <div>
               <button
                 onClick={() =>
@@ -78,14 +93,14 @@ const Header = () => {
                   />
                   {profile && (
                     <div className='absolute top-[50px] border-2  w-36 flex flex-col justify-center p-2 space-y-2 bg-white right-0 rounded-xl shadow-md '>
-                      <p className='text-sm'>
+                      <p className='text-sm cursor-not-allowed'>
                         {user?.displayName || "Name not found"}
                       </p>
                       <div onClick={hideProfile}>
                         <ActiveLink to='/dashboard'>Dashboard</ActiveLink>
                       </div>
                       <Button
-                        // onClick={handleLogout}
+                        onClick={handleLogout}
                         variant={"destructive"}
                         size={"sm"}
                         className='flex items-center gap-1 '
