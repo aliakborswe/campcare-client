@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout";
 import MainLayout from "@/layouts/MainLayout";
 import About from "@/pages/about/About";
 import Login from "@/pages/auth/Login";
+import Register from "@/pages/auth/Register";
 import AvailableCamps from "@/pages/availableCamps/AvailableCamps";
 import Home from "@/pages/home/Home";
 import { Route, Routes } from "react-router";
@@ -22,6 +23,7 @@ const AppRoutes = () => {
           {/* Auth route with base layout */}
           <Route path="/" element={<BaseLayout/>}>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
           </Route>
         </Routes>
     );

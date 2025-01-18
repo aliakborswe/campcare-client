@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import Wrapper from "@/components/common/Wrapper";
 import useAuth from "@/hooks/useAuth";
+import SocialLogin from "./SocialLogin";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -54,6 +55,7 @@ const Login = () => {
   });
   // Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    // TODO: check email and pass exist in DB or not
     login(values.email, values.password)
       .then(() => {
         toast.success("Login Success!");
@@ -71,7 +73,7 @@ const Login = () => {
         <title>Giving-Hands | Login</title>
       </Helmet>
       <div className='w-full md:w-1/2'>
-      {/* TODO: social login */}
+        <SocialLogin />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
