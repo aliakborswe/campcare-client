@@ -14,6 +14,8 @@ const useAxiosSecure = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+      // Add a request interceptor
+      // Add a response interceptor
       axiosInstance.interceptors.response.use(
         (response) => {
           return response;

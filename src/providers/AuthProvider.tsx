@@ -50,22 +50,21 @@ const AuthProvider = ({children}: Props) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user as User);
       // console.log("User from observer: ", user);
-      if(user?.email){
-        axiosPublic.post('/jwt',{email: user?.email})
-        .then(res=>{
-          localStorage.setItem('access-token', res.data.token)
-          console.log(res.data.token)
+      if (user?.email) {
+        axiosPublic.post("/jwt", { email: user?.email }).then((res) => {
+          localStorage.setItem("access-token", res.data.token);
+          console.log(res.data.token);
           setLoading(false);
-        })
-      }else{
-        localStorage.removeItem('access-token')
+        });
+      } else {
+        localStorage.removeItem("access-token");
+        setLoading(false);
       }
-      
     });
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [axiosPublic]);
   const authValue = {
     user,
     setUser,

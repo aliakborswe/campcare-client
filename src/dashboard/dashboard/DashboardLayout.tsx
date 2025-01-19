@@ -55,9 +55,9 @@ const DashboardLayout = () => {
       />
       <main
         ref={mainRef}
-        className='dashboard-body min-h-screen max-w-full bg-secondary/50 transition-all '
+        className='dashboard-body min-h-screen max-w-full bg-background transition-all '
       >
-        <div className='sticky left-0 top-0 z-20 flex h-[80px] items-center justify-between bg-background shadow-md px-6 py-4'>
+        <div className='sticky left-0 top-0 z-20 flex h-[80px] items-center bg-primary/10 justify-between shadow-md px-6 py-4'>
           <button
             onClick={handleMenuBarClick}
             type='button'

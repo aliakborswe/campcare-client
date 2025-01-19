@@ -19,7 +19,7 @@ type Props = {
 const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
   const { logOut } = useAuth();
 
-  const isAdmin = false
+  const isAdmin = true
 
   const navigate = useNavigate();
   // handle logout button
@@ -36,7 +36,7 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
     <>
       <div
         ref={sidebarRef}
-        className='dashboard-sidebar fixed left-0 top-0 z-40 box-border h-full overflow-hidden shadow-md bg-background transition-all'
+        className='dashboard-sidebar fixed left-0 top-0 z-40 box-border h-full overflow-hidden shadow-md bg-primary/10 transition-all'
       >
         <div className='h-[calc(100dvh-80px)] overflow-y-auto overflow-x-hidden '>
           {/* logo */}
