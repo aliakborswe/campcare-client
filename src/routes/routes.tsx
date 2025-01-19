@@ -16,6 +16,7 @@ import Register from "@/pages/auth/Register";
 import AvailableCamps from "@/pages/availableCamps/AvailableCamps";
 import Home from "@/pages/home/Home";
 import { Route, Routes } from "react-router";
+import PrivateRoute from "./PrivetRoute";
 
 const AppRoutes = () => {
   return (
@@ -30,8 +31,15 @@ const AppRoutes = () => {
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
       </Route>
-      {/* Dashboard routes */}
-      <Route path='/dashboard' element={<DashboardLayout />}>
+      {/* Dashboard routes && private route */}
+      <Route
+        path='/dashboard'
+        element={
+          <PrivateRoute>
+            <DashboardLayout />
+          </PrivateRoute>
+        }
+      >
         {/* <Route index element={<div>Dashboard</div>} /> */}
         {/* user routes */}
         <Route path='analytics' element={<Analytics />} />

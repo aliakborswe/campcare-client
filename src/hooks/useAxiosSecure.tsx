@@ -6,8 +6,8 @@ import useAuth from "./useAuth";
 
 
 const axiosInstance = axios.create({
+  // TODO: change base url
   baseURL: "http://localhost:8000/api/v1",
-  // withCredentials: true,
 });
 const useAxiosSecure = () => {
     const { logOut } = useAuth();

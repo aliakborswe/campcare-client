@@ -19,7 +19,7 @@ type Props = {
 const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
   const { logOut } = useAuth();
 
-  const isAdmin = true
+  const isAdmin = false
 
   const navigate = useNavigate();
   // handle logout button
