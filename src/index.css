@@ -4,13 +4,6 @@
 
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  /* line-height: 1.5;
-  font-weight: 400; */
-
-  /* color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,7 +13,7 @@
 
 
 
-body {
+body {  
   margin: 0;
   /* display: flex;
   place-items: center;
@@ -30,20 +23,20 @@ body {
 
 @layer base {
   :root {
-    --background:300, 47%, 97%;
+    --background:300 47% 97%;
     --foreground: 0 0% 3.9%;
-    --card:300, 47%, 97%;
+    --card:300 47% 97%;
     --card-foreground: 0 0% 3.9%;
-    --popover:300, 47%, 97%;
+    --popover:300 47% 97%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 300, 100%, 25%;
+    --primary: 300 100% 25%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 255, 96%, 54%;
-    --secondary-foreground: 300, 100%, 25%;
-    --muted: 255, 96%, 54%;
+    --secondary: 255 96% 54%;
+    --secondary-foreground: 300 100% 25%;
+    --muted: 255 96% 54%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 255, 96%, 54%;
-    --accent-foreground: 300, 100%, 25%;
+    --accent: 255 96% 54%;
+    --accent-foreground: 300 100% 25%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
@@ -64,7 +57,7 @@ body {
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
-    --primary-foreground: 300, 100%, 25%;
+    --primary-foreground: 300 100% 25%;
     --secondary: 0 0% 85%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 85%;

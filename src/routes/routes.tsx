@@ -7,6 +7,7 @@ import Analytics from "@/dashboard/user/Analytics";
 import PaymentHistory from "@/dashboard/user/PaymentHistory";
 import RegisteredCamps from "@/dashboard/user/RegisteredCamps";
 import UserProfile from "@/dashboard/user/UserProfile";
+import ErrorPage from "@/error-page";
 import BaseLayout from "@/layouts/BaseLayout";
 import MainLayout from "@/layouts/MainLayout";
 import About from "@/pages/about/About";
@@ -41,8 +42,13 @@ const AppRoutes = () => {
         <Route path='admin-profile' element={<AdminProfile />} />
         <Route path='add-camp' element={<AddCamp />} />
         <Route path='manage-camp' element={<ManageCamp />} />
-        <Route path='manage-registered-camp' element={<ManageRegisteredCamp />} />
+        <Route
+          path='manage-registered-camp'
+          element={<ManageRegisteredCamp />}
+        />
       </Route>
+      {/* error route without header and footer */}
+      <Route path='*' element={<ErrorPage />} />
     </Routes>
   );
 };

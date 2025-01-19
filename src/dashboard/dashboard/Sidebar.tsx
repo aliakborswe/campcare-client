@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils";
 import { createElement } from "react";
-import { BadgeDollarSign, LayoutDashboard, NotepadText, UserRoundCog } from "lucide-react";
+import { BadgeDollarSign, ClipboardPlus, LayoutDashboard, NotepadText, SquareKanban, UserRoundCog } from "lucide-react";
 import { NavLink, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg"
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,8 @@ type Props = {
 
 const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
   const { logOut } = useAuth();
+
+  const isAdmin = true
 
   const navigate = useNavigate();
   // handle logout button
@@ -39,52 +41,59 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
         <div className='h-[calc(100dvh-80px)] overflow-y-auto overflow-x-hidden '>
           {/* logo */}
           <SidebarLogo to='/' image={logo} label='CampCare+' />
-          {/* user sidebar menu */}
-          <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
-            <SidebarLink
-              label='Analytics'
-              icon={LayoutDashboard}
-              to='analytics'
-            />
-            <SidebarLink
-              label='User Profile'
-              icon={UserRoundCog}
-              to='user-profile'
-            />
-            <SidebarLink
-              label='Registered Camps'
-              icon={NotepadText}
-              to='registered-camp'
-            />
-            <SidebarLink
-              label='Payment History'
-              icon={BadgeDollarSign}
-              to='payment-history'
-            />
-          </ul>
-          {/* admin sidebar menu */}
-          <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
-            <SidebarLink
-              label='Admin Profile'
-              icon={UserRoundCog}
-              to='admin-profile'
-            />
-            <SidebarLink
-              label='Add Camp'
-              icon={UserRoundCog}
-              to='add-camp'
-            />
-            <SidebarLink
-              label='Manage Camp'
-              icon={NotepadText}
-              to='manage-camp'
-            />
-            <SidebarLink
-              label='Manage Register Camp'
-              icon={BadgeDollarSign}
-              to='manage-registered-camp'
-            />
-          </ul>
+          {isAdmin ? (
+            <>
+              {/* admin sidebar menu */}
+              <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
+                <SidebarLink
+                  label='Admin Profile'
+                  icon={UserRoundCog}
+                  to='admin-profile'
+                />
+                <SidebarLink
+                  label='Add Camp'
+                  icon={ClipboardPlus}
+                  to='add-camp'
+                />
+                <SidebarLink
+                  label='Manage Camp'
+                  icon={SquareKanban}
+                  to='manage-camp'
+                />
+                <SidebarLink
+                  label='Manage Register Camp'
+                  icon={NotepadText}
+                  to='manage-registered-camp'
+                />
+              </ul>
+            </>
+          ) : (
+            <>
+              {/* user sidebar menu */}
+              <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
+                <SidebarLink
+                  label='Analytics'
+                  icon={LayoutDashboard}
+                  to='analytics'
+                />
+                <SidebarLink
+                  label='User Profile'
+                  icon={UserRoundCog}
+                  to='user-profile'
+                />
+                <SidebarLink
+                  label='Registered Camps'
+                  icon={NotepadText}
+                  to='registered-camp'
+                />
+                <SidebarLink
+                  label='Payment History'
+                  icon={BadgeDollarSign}
+                  to='payment-history'
+                />
+              </ul>
+            </>
+          )}
         </div>
         <div className='h-[150px] space-y-4 px-3 pt-3'>
           <Button
