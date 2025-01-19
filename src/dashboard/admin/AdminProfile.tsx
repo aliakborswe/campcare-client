@@ -17,7 +17,8 @@ const AdminProfile = () => {
         queryFn: async () => {
           const res = await axiosSecure.get("/users");
           return res.data;
-        }
+        },
+    
     });
     return <div>AdminProfile AdminProfile user : {data?.length}</div>;
 };

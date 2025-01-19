@@ -15,6 +15,18 @@ const useAxiosSecure = () => {
 
     useEffect(() => {
       // Add a request interceptor
+      axiosInstance.interceptors.request.use(
+        (config) => {
+          const token = localStorage.getItem("access-token");
+          if (token) {
+            config.headers.authorization = `Bearer ${token}`;
+          }
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
       // Add a response interceptor
       axiosInstance.interceptors.response.use(
         (response) => {
