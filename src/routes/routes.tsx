@@ -17,6 +17,7 @@ import AvailableCamps from "@/pages/availableCamps/AvailableCamps";
 import Home from "@/pages/home/Home";
 import { Route, Routes } from "react-router";
 import PrivateRoute from "./PrivetRoute";
+import CheckRole from "./CheckRole";
 
 const AppRoutes = () => {
   return (
@@ -47,12 +48,37 @@ const AppRoutes = () => {
         <Route path='registered-camp' element={<RegisteredCamps />} />
         <Route path='payment-history' element={<PaymentHistory />} />
         {/* admin routes */}
-        <Route path='admin-profile' element={<AdminProfile />} />
-        <Route path='add-camp' element={<AddCamp />} />
-        <Route path='manage-camp' element={<ManageCamp />} />
+        <Route
+          path='admin-profile'
+          element={
+            <CheckRole roles={["admin"]}>
+              <AdminProfile />
+            </CheckRole>
+          }
+        />
+        <Route
+          path='add-camp'
+          element={
+            <CheckRole roles={["admin"]}>
+              <AddCamp />
+            </CheckRole>
+          }
+        />
+        <Route
+          path='manage-camp'
+          element={
+            <CheckRole roles={["admin"]}>
+              <ManageCamp />
+            </CheckRole>
+          }
+        />
         <Route
           path='manage-registered-camp'
-          element={<ManageRegisteredCamp />}
+          element={
+            <CheckRole roles={["admin"]}>
+              <ManageRegisteredCamp />
+            </CheckRole>
+          }
         />
       </Route>
       {/* error route without header and footer */}

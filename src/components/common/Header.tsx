@@ -33,7 +33,7 @@ const Header = () => {
   };
 
   return (
-    <header className=' fixed top-0 left-0 right-0 bg-primary/10 z-50'>
+    <header className='bg-primary/20 sticky top-0'>
       <div className='container mx-auto px-2.5 py-1'>
         <nav className='flex flex-row gap-6 justify-between items-center'>
           <div className='flex items-center'>
@@ -49,7 +49,7 @@ const Header = () => {
           <div
             className={`${
               showMenu ? "block" : "hidden"
-            } lg:block absolute z-10 lg:static top-[58px] left-2.5 p-4 rounded-xl  bg-white border lg:border-none shadow-md lg:shadow-none lg:bg-transparent`}
+            } lg:block absolute  lg:static top-[58px] left-2.5 p-4 rounded-xl  bg-white border lg:border-none shadow-md lg:shadow-none lg:bg-transparent`}
           >
             <div className='flex flex-col lg:flex-row gap-6 text-base font-medium text-foreground w-full'>
               <div onClick={hideProfile}>

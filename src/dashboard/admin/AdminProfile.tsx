@@ -5,22 +5,23 @@ import {
 } from "@tanstack/react-query";
 
 type User = {
-  id: number;
-  name: string;
   email: string;
-  // Add other user properties here
+  name: string;
+  photoURL: string;
+  role: string;
+  _id: string;
 };
 const AdminProfile = () => {
     const axiosSecure = useAxiosSecure();
     const { data } = useQuery<User[]>({
       queryKey: ["user"],
-        queryFn: async () => {
-          const res = await axiosSecure.get("/users");
-          return res.data;
-        },
-    
-    });
-    return <div>AdminProfile AdminProfile user : {data?.length}</div>;
+      queryFn: async () => {
+        const res = await axiosSecure.get(`/users`);
+        return res.data;
+    },
+});
+
+    return <div>AdminProfile AdminProfile user: {data?.length} </div>;
 };
 
 export default AdminProfile;

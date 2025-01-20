@@ -8,6 +8,7 @@ import logo from "@/assets/svg/logo.svg"
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "react-toastify";
+import useRole from "@/hooks/useRole";
 
 
 type Props = {
@@ -17,9 +18,14 @@ type Props = {
 };
 
 const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
-  const { logOut } = useAuth();
+  const {logOut } = useAuth();
 
-  const isAdmin = true
+  const [role] = useRole();
+
+
+  console.log('sidebar', role)
+
+// const isAdmin = role === "admin";
 
   const navigate = useNavigate();
   // handle logout button
@@ -41,7 +47,7 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
         <div className='h-[calc(100dvh-80px)] overflow-y-auto overflow-x-hidden '>
           {/* logo */}
           <SidebarLogo to='/' image={logo} label='CampCare+' />
-          {isAdmin ? (
+          {role === "admin" ? (
             <>
               {/* admin sidebar menu */}
               <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
@@ -179,7 +185,7 @@ export const SidebarLogo = (props: {
         to={to}
         end
         className=
-            "flex min-h-[60px] items-center gap-5 rounded-md pt-4 pl-3  hover:bg-primary/90 "
+            "flex min-h-[60px] items-center gap-5 rounded-md pt-4 pl-3"
       >
         {image &&
           (<img src={image} alt="logo" className="w-12" /> as any)}

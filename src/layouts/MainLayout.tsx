@@ -8,16 +8,16 @@ const MainLayout = () => {
     window.scrollTo({ top: 0, left: 0 ,  behavior: 'smooth' });
   }
   return (
-    <div>
+    <>
       <Header />
-      <div className='min-h-screen mt-16'>
+      <main className='min-h-screen'>
         <Outlet />
-      </div>
+      </main>
       <Footer />
       <div onClick={handleScroll} className="bg-primary fixed bottom-4 right-4 p-2 rounded-full text-white ">
         <ArrowUpFromDot />
       </div>
-    </div>
+    </>
   );
 };
 
