@@ -5,10 +5,8 @@ import { createElement } from "react";
 import { BadgeDollarSign, ClipboardPlus, LayoutDashboard, NotepadText, SquareKanban, UserRoundCog } from "lucide-react";
 import { NavLink, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg"
-import { Button } from "@/components/ui/button";
-import useAuth from "@/hooks/useAuth";
-import { toast } from "react-toastify";
 import useRole from "@/hooks/useRole";
+import { Button } from "@/components/ui/button";
 
 
 type Props = {
@@ -18,35 +16,33 @@ type Props = {
 };
 
 const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
-  const {logOut } = useAuth();
+  // const {logOut } = useAuth();
 
   const [role] = useRole();
 
 
-  console.log('sidebar', role)
-
-// const isAdmin = role === "admin";
 
   const navigate = useNavigate();
   // handle logout button
     const handleLogout = async () => {
-      try {
-        await logOut();
-        navigate("/");
-        toast.success("Logout Success!");
-      } catch (err: any) {
-        toast.error(err.message || "Logout Failed");
-      }
+      navigate("/");
+      // try {
+      //   await logOut();
+      //   navigate("/");
+      //   toast.success("Logout Success!");
+      // } catch (err: any) {
+      //   toast.error(err.message || "Logout Failed");
+      // }
     };
   return (
     <>
       <div
         ref={sidebarRef}
-        className='dashboard-sidebar fixed left-0 top-0 z-40 box-border h-full overflow-hidden shadow-md bg-primary/10 transition-all'
+        className='dashboard-sidebar fixed left-0 top-0 z-40 box-border h-full overflow-hidden shadow-md bg-[#EEDBEE] dark:bg-[#222222] transition-all'
       >
         <div className='h-[calc(100dvh-80px)] overflow-y-auto overflow-x-hidden '>
           {/* logo */}
-          <SidebarLogo to='/' image={logo} label='CampCare+' />
+          <SidebarLogo label='CampCare+' src={logo} to='/' />
           {role === "admin" ? (
             <>
               {/* admin sidebar menu */}
@@ -102,12 +98,8 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
           )}
         </div>
         <div className='h-[150px] space-y-4 px-3 pt-3'>
-          <Button
-            onClick={handleLogout}
-            variant={"destructive"}
-            className='w-full'
-          >
-            Logout
+          <Button onClick={handleLogout} className='w-full'>
+            Home
           </Button>
         </div>
       </div>
@@ -174,24 +166,32 @@ export const SidebarMenu = (props: { menu: MenuItem[] }) => {
 };
 
 
+
 export const SidebarLogo = (props: {
   label: string;
   to: string;
-  image: any;
+  src: string;
 }) => {
-  const { label, to, image } = props;
+  const { label, to, src } = props;
   return (
+    <li className='group mb-1 list-none'>
       <NavLink
         to={to}
         end
-        className=
-            "flex min-h-[60px] items-center gap-5 rounded-md pt-4 pl-3"
+        className={({ isActive }) =>
+          cn(
+            isActive ? "text-primary" : "",
+            "flex items-center gap-x-2 px-4 py-3"
+          )
+        }
       >
-        {image &&
-          (<img src={image} alt="logo" className="w-12" /> as any)}
-        <span className='whitespace-nowrap font-bold text-xl'>{label}</span>
+        {src &&
+          createElement("img", {
+            src: src,
+            className: "flex-shrink-0 w-12",
+          } as any)}
+        <span className='whitespace-nowrap text-2xl font-bold'>{label}</span>
       </NavLink>
+    </li>
   );
 };
-
-

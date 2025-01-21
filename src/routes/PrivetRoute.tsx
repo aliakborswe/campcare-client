@@ -5,14 +5,13 @@ import { Navigate, useLocation } from "react-router";
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
-  console.log("User from private route", user);
 
   if (loading) return <Spinner />;
-  if(user){
+  if (user) {
     return children;
-  } 
+  }
 
-  return  <Navigate to='/login' state={{ from: location }} replace />;
-}
+  return <Navigate to='/login' state={{ from: location }} replace />;
+};
 
 export default PrivateRoute;
