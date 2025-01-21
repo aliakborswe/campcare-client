@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import useAxiosPublic from "@/hooks/useAxiosPublic";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { campSchema } from "@/utils/campSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,9 +20,15 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
+//   imgbb information
+const image_hosting_key = import.meta.env.VITE_IMGBB_API_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
 const AddCamp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
   // Define form.
@@ -41,14 +48,31 @@ const AddCamp = () => {
   });
 
   // Define a submit handler.
-  function onSubmit(data: z.infer<typeof campSchema>) {
+  async function onSubmit(data: z.infer<typeof campSchema>) {
     setIsSubmitting(true);
+
     try {
-      const campData = {
-        ...data,
-      };
-      console.log(campData)
-    
+      const formData = new FormData();
+      formData.append("image", data.image as File);
+
+      const res = await axiosPublic.post(image_hosting_api, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (res.status === 200) {
+        const imageUrl = res.data.data.url;
+        const campData = {
+          ...data,
+          image: imageUrl,
+        };
+
+        await axiosSecure.post("/camps", campData);
+        toast.success("Post added successfully");
+        form.reset();
+        navigate("/dashboard");
+      } else {
+        toast.error("Image upload failed");
+      }
     } catch (error: any) {
       toast.error(error.message);
     } finally {
