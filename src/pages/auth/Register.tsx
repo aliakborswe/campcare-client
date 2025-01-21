@@ -49,7 +49,7 @@ const Register = () => {
           const user = {
             name: res?.user?.displayName || values.name,
             email: res?.user?.email || email,
-            photoURL: res?.user?.photoURL || values.photoURL,
+            image: res?.user?.photoURL || values.photoURL,
             password: password,
           };
           axiosSecure
@@ -108,23 +108,6 @@ const Register = () => {
                   <FormControl>
                     <Input
                       placeholder='Enter Your email'
-                      {...field}
-                      className='border-foreground'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='photoURL'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Photo URL</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Enter Your Photo url'
                       {...field}
                       className='border-foreground'
                     />

@@ -1,5 +1,5 @@
 import { LogIn, LogOut, Menu, Moon, Sun, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg";
 import ActiveLink from "./ActiveLink";
@@ -7,12 +7,38 @@ import { Button } from "../ui/button";
 import { useTheme } from "@/providers/theme-provider";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "react-toastify";
+import useAxiosSecure from "@/hooks/useAxiosSecure";
+import { UserType } from "@/utils/userType";
 
 const Header = () => {
-  const { user, logOut } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   const [profile, setProfile] = useState(false);
   const { setTheme, theme } = useTheme();
+  const [data, setData] = useState<UserType | null>(null);
+  const { user, logOut } = useAuth();
+
+  const axiosSecure = useAxiosSecure();
+  // const { data } = useQuery<UserType>({
+  //   queryKey: ["user", user?.email],
+  //   queryFn: async () => {
+  //     const res = await axiosSecure.get(`/users/${user?.email}`);
+  //     return res.data;
+  //   },
+  // });
+
+   useEffect(() => {
+     const fetchData = async () => {
+       if (user?.email) {
+         try {
+           const res = await axiosSecure.get(`/users/${user.email}`);
+           setData(res.data);
+         } catch (error:any) {
+           toast.error(error.message || "Failed to fetch user data");
+         }
+       }
+     };
+     fetchData();
+   }, [user?.email, axiosSecure]);
 
   const toggleMenu = () => setShowMenu(!showMenu);
 
@@ -85,16 +111,16 @@ const Header = () => {
                   <img
                     onClick={() => setProfile(!profile)}
                     src={
-                      user?.photoURL ||
+                      data?.image ||
                       "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
                     }
                     className='w-10 aspect-square rounded-full '
                     alt='photo'
                   />
                   {profile && (
-                    <div className='absolute top-[50px] border-2  w-36 flex flex-col justify-center p-2 space-y-2 bg-white right-0 rounded-xl shadow-md '>
+                    <div className='absolute top-[50px] border-2  w-36 flex flex-col justify-center p-2 space-y-2 bg-white text-black right-0 rounded-xl shadow-md '>
                       <p className='text-sm cursor-not-allowed'>
-                        {user?.displayName || "Name not found"}
+                        {data?.name || "Name not found"}
                       </p>
                       <div onClick={hideProfile}>
                         <ActiveLink to='/dashboard'>Dashboard</ActiveLink>

@@ -1,27 +1,21 @@
-
+import Profile from "@/components/common/profile/Profile";
+import useAuth from "@/hooks/useAuth";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
-import {
-  useQuery
-} from "@tanstack/react-query";
+import { UserType } from "@/utils/userType";
+import { useQuery } from "@tanstack/react-query";
 
-type User = {
-  email: string;
-  name: string;
-  photoURL: string;
-  role: string;
-  _id: string;
-};
 const AdminProfile = () => {
-    const axiosSecure = useAxiosSecure();
-    const { data } = useQuery<User[]>({
-      queryKey: ["user"],
-      queryFn: async () => {
-        const res = await axiosSecure.get(`/users`);
-        return res.data;
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const { data, refetch } = useQuery<UserType>({
+    queryKey: ["user", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user?.email}`);
+      return res.data;
     },
-});
+  });
 
-    return <div>AdminProfile AdminProfile user: {data?.length} </div>;
+  return <div>{data && <Profile data={data} refetch={refetch}/>}</div>;
 };
 
 export default AdminProfile;
