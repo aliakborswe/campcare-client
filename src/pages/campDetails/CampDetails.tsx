@@ -23,6 +23,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { CampInterface } from "@/utils/campInterface";
 import { registeredCampSchema } from "@/utils/registeredCampSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
@@ -31,28 +32,18 @@ import { z } from "zod";
 
 const CampDetails = () => {
   const { user } = useAuth();
-  const [camp, setCamp] = useState<CampInterface>({} as CampInterface);
-  const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const axiosSecure = useAxiosSecure();
   const { id } = useParams<{ id: string }>();
 
-  useEffect(() => {
-    const fetchCamp = async () => {
-      setLoading(true);
-      try {
-        const res = await axiosSecure.get(`/camps/${id}`);
-        setCamp(res.data);
-      } catch (err: any) {
-        toast.error(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCamp();
-  }, [axiosSecure, id]);
+  const { data: camp, isLoading, refetch } = useQuery<CampInterface>({
+    queryKey: ["camp", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/camps/${id}`);
+      return res.data;
+    }
+  });
 
   // Define form.
   const form = useForm<z.infer<typeof registeredCampSchema>>({
@@ -74,19 +65,12 @@ const CampDetails = () => {
   useEffect(() => {
     // initially set default value in form
     if (camp) {
-      if (
-        camp.campName &&
-        camp.campFees &&
-        camp.location &&
-        camp.healthcareProfessional
-      ) {
         form.setValue("campName", camp.campName);
         form.setValue("campFees", camp.campFees);
         form.setValue("location", camp.location);
         form.setValue("healthcareProfessional", camp.healthcareProfessional);
         form.setValue("participantName", user?.displayName || "");
         form.setValue("participantEmail", user?.email || "");
-      }
     }
   }, [camp, form, user?.displayName, user?.email]);
 
@@ -95,7 +79,7 @@ const CampDetails = () => {
     setIsSubmitting(true);
     try {
       const dataToSend = {
-        campId: camp._id,
+        campId: camp?._id,
         participantName: data.participantName,
         participantEmail: data.participantEmail,
         age: data.age,
@@ -103,18 +87,19 @@ const CampDetails = () => {
         gender: data.gender,
         emergencyContact: data.emergencyContact,
       };
-      console.log(dataToSend);
       const res = await axiosSecure.post("/participants", dataToSend);
+      refetch();
       toast.success(res.data.message);
       setIsDialogOpen(false); // Close the dialog
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error("Participant already registered for this camp.", err.message);
+      setIsDialogOpen(false); // Close the dialog
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  if (loading) {
+  if (isLoading) {
     return <Spinner />;
   }
   if (!camp) {
