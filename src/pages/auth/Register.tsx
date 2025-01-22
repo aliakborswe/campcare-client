@@ -31,16 +31,15 @@ const Register = () => {
     defaultValues: {
       name: "",
       email: "",
-      photoURL: "",
       password: "",
     },
   });
 
   // Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+   function onSubmit(values: z.infer<typeof formSchema>) {
     const email = values.email;
     const password = values.password;
-    const updatedUser = { displayName: values.name, photoURL: values.photoURL }; // for firebase user profile update
+    const updatedUser = { displayName: values.name }; // for firebase user profile update
 
     if (createUser) {
       createUser(email, password)
@@ -49,7 +48,6 @@ const Register = () => {
           const user = {
             name: res?.user?.displayName || values.name,
             email: res?.user?.email || email,
-            image: res?.user?.photoURL || values.photoURL,
             password: password,
           };
           axiosSecure
@@ -73,7 +71,7 @@ const Register = () => {
   return (
     <Wrapper className='flex flex-col md:flex-row items-center justify-between gap-4 '>
       <Helmet>
-        <title>Giving-Hands | Register</title>
+        <title>Register</title>
       </Helmet>
       <div className='w-full md:w-1/2'>
         <SocialLogin />

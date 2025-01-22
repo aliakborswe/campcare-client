@@ -20,11 +20,11 @@ const SocialLogin = () => {
           name: res?.user?.displayName,
           email: res?.user?.email,
         };
-        axiosSecure.post("/users", user)
+        axiosSecure.post("/users", user);
         toast.success("Success to login");
         navigate(from, { replace: true });
       })
-      .catch((err:any) => {
+      .catch((err: any) => {
         toast.error(err.message);
       });
   };

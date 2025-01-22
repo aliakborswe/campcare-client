@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link,  useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import Wrapper from "@/components/common/Wrapper";
@@ -42,9 +42,7 @@ const Login = () => {
   const { login } = useAuth();
 
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const from = location.state?.from?.pathname || "/";
   // Define form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,7 +57,7 @@ const Login = () => {
     login(values.email, values.password)
       .then(() => {
         toast.success("Login Success!");
-        navigate(from, { replace: true });
+        navigate("/");
         form.reset();
       })
       .catch(() => {
@@ -70,7 +68,7 @@ const Login = () => {
   return (
     <Wrapper className='flex flex-col md:flex-row items-center justify-center gap-4 '>
       <Helmet>
-        <title>Giving-Hands | Login</title>
+        <title>Login</title>
       </Helmet>
       <div className='w-full md:w-1/2'>
         <SocialLogin />

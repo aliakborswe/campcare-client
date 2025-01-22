@@ -23,8 +23,8 @@ import { Button } from "@/components/ui/button";
 
 const updateProfileSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string(),
-  contact: z.string(),
+  email: z.string().email("Invalid email address"),
+  contact: z.string().min(1, "Contact is required"),
   image: z.instanceof(File).optional(),
 });
 
@@ -34,12 +34,13 @@ type UpdateProfileFormValues = z.infer<typeof updateProfileSchema>;
 const image_hosting_key = import.meta.env.VITE_IMGBB_API_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
+const Profile = ({ data }: { data: UserType }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(data.image);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
+
 
   const form = useForm<UpdateProfileFormValues>({
     resolver: zodResolver(updateProfileSchema),
@@ -78,9 +79,9 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
       };
 
       await axiosSecure.put(`/users/${data._id}`, updatedData);
+      console.log(updatedData);
       toast.success("Profile updated successfully");
       setIsPopoverOpen(false); // Close the popup
-      refetch(); // Refetch the data
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -97,8 +98,8 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
   };
 
   return (
-    <div className='p-4 sm:mr-10 lg:mr-20 mt-10 lg:mx-28'>
-      <div className='card bg-white p-6 rounded-lg shadow-lg flex flex-col sm:flex-row items-center gap-6 lg:gap-16'>
+    <div className='p-4 sm:mr-10 lg:mr-20 mt-10'>
+      <div className='card bg-base-100 shadow-xl flex flex-col sm:flex-row gap-8 justify-start items-center p-4'>
         <img
           src={data.image}
           className='aspect-square w-48 rounded-full'
@@ -114,8 +115,8 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
             {data.contact}
           </p>
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-            <PopoverTrigger asChild>
-              <Button>Update</Button>
+            <PopoverTrigger>
+              <div className="bg-primary text-white dark:text-black py-2 px-4 rounded-md font-semibold">Update</div>
             </PopoverTrigger>
             <PopoverContent className='fixed inset-0 bg-background flex items-center justify-center w-[320px] p-0 '>
               <Form {...form}>
@@ -202,11 +203,11 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
                       />
                     </div>
                   )}
-                  <div className='w-full'>
+                  <div className="w-full">
                     <Button
-                      className='w-full'
                       type='submit'
                       disabled={isSubmitting}
+                      className='w-full'
                     >
                       {isSubmitting ? "Saving..." : "Save"}
                     </Button>
