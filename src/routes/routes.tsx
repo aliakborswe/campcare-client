@@ -18,6 +18,7 @@ import Home from "@/pages/home/Home";
 import { Route, Routes } from "react-router";
 import PrivateRoute from "./PrivetRoute";
 import CheckRole from "./CheckRole";
+import CampDetails from "@/pages/campDetails/CampDetails";
 
 const AppRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const AppRoutes = () => {
       <Route path='/' element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path='camps' element={<AvailableCamps />} />
+        <Route path='camps/:id' element={<CampDetails />} />
         <Route path='about' element={<About />} />
       </Route>
       {/* Auth route with base layout */}
