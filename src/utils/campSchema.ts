@@ -5,6 +5,7 @@ export const campSchema = z.object({
     image: z.instanceof(File),
     campFees: z.number().min(0, { message: "Camp fees must be a positive number" }),
     date: z.string().min(10, { message: "Dateline must be in the format hh:mm am/pm YYYY-MM-DD " }),
+    time: z.string().min(10, { message: "Time must be in the format hh:mm am/pm" }),
     location: z.string(),
     healthcareProfessional: z.string(),
     participantCount: z.number(),

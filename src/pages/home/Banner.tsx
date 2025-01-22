@@ -22,7 +22,7 @@ import slide5 from "@/assets/images/5.jpg";
 
 const Banner = () => {
   return (
-    <div>
+    <div className="relative -z-10">
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
         spaceBetween={0}

@@ -94,7 +94,7 @@ const Header = () => {
                     alt='photo'
                   />
                   {profile && (
-                    <div className='absolute top-[50px] border-2  w-36 flex flex-col justify-center p-2 space-y-2 bg-white text-black right-0 rounded-xl shadow-md '>
+                    <div className='absolute top-[50px] border-2 z-10 w-36 flex flex-col justify-center p-2 space-y-2 bg-white text-black right-0 rounded-xl shadow-md '>
                       <p className='text-sm cursor-not-allowed'>
                         {user?.displayName || "Name not found"}
                       </p>
