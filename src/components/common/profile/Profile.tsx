@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { Button } from "@/components/ui/button";
+import useAuth from "@/hooks/useAuth";
 
 const updateProfileSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -38,6 +39,7 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(data.image);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const { updateUserProfile } = useAuth();
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
 
@@ -80,6 +82,7 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
       await axiosSecure.put(`/users/${data._id}`, updatedData);
       refetch();
       toast.success("Profile updated successfully");
+      updateUserProfile({ photoURL: imageUrl });
       setIsPopoverOpen(false); // Close the popup
     } catch (error: any) {
       toast.error(error.message);
