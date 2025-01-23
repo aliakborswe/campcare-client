@@ -21,6 +21,7 @@ import CheckRole from "./CheckRole";
 import CampDetails from "@/pages/campDetails/CampDetails";
 import Dashboard from "@/dashboard/dashboard/Dashboard";
 import Payment from "@/dashboard/user/Payment";
+import UpdateCamp from "@/dashboard/admin/UpdateCamp";
 
 const AppRoutes = () => {
   return (
@@ -45,7 +46,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       >
-        <Route index element={<Dashboard/>} />
+        <Route index element={<Dashboard />} />
         {/* user routes */}
         <Route path='analytics' element={<Analytics />} />
         <Route path='user-profile' element={<UserProfile />} />
@@ -66,6 +67,14 @@ const AppRoutes = () => {
           element={
             <CheckRole roles={["admin"]}>
               <AddCamp />
+            </CheckRole>
+          }
+        />
+        <Route
+          path='update-camp/:id'
+          element={
+            <CheckRole roles={["admin"]}>
+              <UpdateCamp />
             </CheckRole>
           }
         />

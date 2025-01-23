@@ -43,64 +43,62 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
         <div className='h-[calc(100dvh-80px)] overflow-y-auto overflow-x-hidden '>
           {/* logo */}
           <SidebarLogo label='CampCare+' src={logo} to='/' />
-          {role === "admin" ? (
-            <>
-              {/* admin sidebar menu */}
-              <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
-                <SidebarLink
-                  label='Admin Profile'
-                  icon={UserRoundCog}
-                  to='admin-profile'
-                />
-                <SidebarLink
-                  label='Add Camp'
-                  icon={ClipboardPlus}
-                  to='add-camp'
-                />
-                <SidebarLink
-                  label='Manage Camp'
-                  icon={SquareKanban}
-                  to='manage-camp'
-                />
-                <SidebarLink
-                  label='Manage Register Camp'
-                  icon={NotepadText}
-                  to='manage-registered-camp'
-                />
-              </ul>
-            </>
-          ) : (
-            <>
-              {/* user sidebar menu */}
-              <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
-                <SidebarLink
-                  label='Dashboard'
-                  icon={LayoutDashboard}
-                  to='/dashboard'
-                />
-                <SidebarLink
-                  label='Analytics'
-                  icon={ChartNoAxesCombined}
-                  to='analytics'
-                />
-                <SidebarLink
-                  label='User Profile'
-                  icon={UserRoundCog}
-                  to='user-profile'
-                />
-                <SidebarLink
-                  label='Registered Camps'
-                  icon={NotepadText}
-                  to='registered-camp'
-                />
-                <SidebarLink
-                  label='Payment History'
-                  icon={BadgeDollarSign}
-                  to='payment-history'
-                />
-              </ul>
-            </>
-          )}
+          <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
+            <SidebarLink
+              label='Dashboard'
+              icon={LayoutDashboard}
+              to='/dashboard'
+            />
+            {role === "admin" ? (
+              <>
+                {/* admin sidebar menu */}
+                  <SidebarLink
+                    label='Admin Profile'
+                    icon={UserRoundCog}
+                    to='admin-profile'
+                  />
+                  <SidebarLink
+                    label='Add Camp'
+                    icon={ClipboardPlus}
+                    to='add-camp'
+                  />
+                  <SidebarLink
+                    label='Manage Camp'
+                    icon={SquareKanban}
+                    to='manage-camp'
+                  />
+                  <SidebarLink
+                    label='Manage Register Camp'
+                    icon={NotepadText}
+                    to='manage-registered-camp'
+                  />
+              </>
+            ) : (
+              <>
+                {/* user sidebar menu */}
+                  <SidebarLink
+                    label='Analytics'
+                    icon={ChartNoAxesCombined}
+                    to='analytics'
+                  />
+                  <SidebarLink
+                    label='User Profile'
+                    icon={UserRoundCog}
+                    to='user-profile'
+                  />
+                  <SidebarLink
+                    label='Registered Camps'
+                    icon={NotepadText}
+                    to='registered-camp'
+                  />
+                  <SidebarLink
+                    label='Payment History'
+                    icon={BadgeDollarSign}
+                    to='payment-history'
+                  />
+              </>
+            )}
+          </ul>
         </div>
         <div className='h-[150px] space-y-4 px-3 pt-3'>
           <Button onClick={handleLogout} className='w-full'>

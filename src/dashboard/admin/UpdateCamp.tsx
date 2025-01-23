@@ -13,10 +13,10 @@ import useAxiosPublic from "@/hooks/useAxiosPublic";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { campSchema } from "@/utils/campSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
@@ -24,12 +24,12 @@ import { z } from "zod";
 const image_hosting_key = import.meta.env.VITE_IMGBB_API_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const AddCamp = () => {
+const UpdateCamp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  const {id} = useParams();
 
   // Define form.
   const form = useForm<z.infer<typeof campSchema>>({
@@ -46,6 +46,15 @@ const AddCamp = () => {
       description: "",
     },
   });
+
+    // load camp data from server by id and set the default values
+    useEffect(() => {
+      axiosSecure.get(`/camps/${id}`).then((res) => {
+        const camp = res.data;
+        form.reset(camp);
+      });
+    }, [id, axiosSecure, form])
+
 
   // Define a submit handler.
   async function onSubmit(data: z.infer<typeof campSchema>) {
@@ -66,10 +75,10 @@ const AddCamp = () => {
           image: imageUrl,
         };
 
-        await axiosSecure.post("/camps", campData);
-        toast.success("Camp added successfully");
+        await axiosSecure.put(`/camps/${id}`, campData);
+        toast.success("Camp Update successfully");
         form.reset();
-        navigate("/dashboard");
+        navigate("/dashboard/manage-camp");
       } else {
         toast.error("Image upload failed");
       }
@@ -259,5 +268,4 @@ const AddCamp = () => {
     </div>
   );
 };
-
-export default AddCamp;
+export default UpdateCamp;

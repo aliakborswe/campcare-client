@@ -49,7 +49,7 @@ const ManageCamp = () => {
       confirmButtonText: "Yes, Update it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate(`/update-camp/${id}`);
+        navigate(`/dashboard/update-camp/${id}`);
       }
     });
   };
