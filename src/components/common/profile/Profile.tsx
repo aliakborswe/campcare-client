@@ -110,11 +110,11 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
 
         <div className='space-y-2'>
           <h2 className='text-2xl sm:text-3xl font-semibold text-accent'>
-            {data.name}
+           <span>Name: </span> {data.name}
           </h2>
-          <p className='text-md sm:text-xl font-semibold'>{data.email}</p>
+          <p className='text-md sm:text-xl font-semibold'><span>Email Address: </span>{data.email}</p>
           <p className='text-md sm:text-xl font-semibold pb-3'>
-            {data.contact}
+           <span>Contact Number: </span> {data.contact}
           </p>
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger>
