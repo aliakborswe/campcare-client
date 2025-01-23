@@ -23,27 +23,38 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { CampInterface } from "@/utils/campInterface";
 import { registeredCampSchema } from "@/utils/registeredCampSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
 const CampDetails = () => {
   const { user } = useAuth();
+  const [camp, setCamp] = useState<CampInterface | null>(null);
+  const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const axiosSecure = useAxiosSecure();
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
-  const { data: camp, isLoading, refetch } = useQuery<CampInterface>({
-    queryKey: ["camp", id],
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/camps/${id}`);
-      return res.data;
-    }
-  });
+  // Fetch camp data from the API
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const res = await axiosSecure.get(`/camps/${id}`);
+        setCamp(res.data);
+      } catch (err: any) {
+        toast.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [axiosSecure, id]);
 
   // Define form.
   const form = useForm<z.infer<typeof registeredCampSchema>>({
@@ -65,12 +76,12 @@ const CampDetails = () => {
   useEffect(() => {
     // initially set default value in form
     if (camp) {
-        form.setValue("campName", camp.campName);
-        form.setValue("campFees", camp.campFees);
-        form.setValue("location", camp.location);
-        form.setValue("healthcareProfessional", camp.healthcareProfessional);
-        form.setValue("participantName", user?.displayName || "");
-        form.setValue("participantEmail", user?.email || "");
+      form.setValue("campName", camp.campName);
+      form.setValue("campFees", camp.campFees);
+      form.setValue("location", camp.location);
+      form.setValue("healthcareProfessional", camp.healthcareProfessional);
+      form.setValue("participantName", user?.displayName || "");
+      form.setValue("participantEmail", user?.email || "");
     }
   }, [camp, form, user?.displayName, user?.email]);
 
@@ -87,8 +98,9 @@ const CampDetails = () => {
         gender: data.gender,
         emergencyContact: data.emergencyContact,
       };
+      console.log(dataToSend);
       const res = await axiosSecure.post("/participants", dataToSend);
-      refetch();
+      navigate("/");
       toast.success(res.data.message);
       setIsDialogOpen(false); // Close the dialog
     } catch (err: any) {
@@ -99,7 +111,7 @@ const CampDetails = () => {
     }
   }
 
-  if (isLoading) {
+  if (loading) {
     return <Spinner />;
   }
   if (!camp) {
@@ -107,24 +119,38 @@ const CampDetails = () => {
   }
   return (
     <Wrapper>
-      <div className='border flex flex-col sm:flex-row items-center gap-6 p-4 rounded shadow-lg'>
-        <div className='w-full sm:w-1/3'>
+      <div className='border w-full flex flex-col lg:flex-row items-center gap-6 p-4 rounded shadow-lg'>
+        <div className='w-full h-full lg:w-1/3'>
           <img
             src={camp.image}
             alt={camp.campName}
-            className='aspect-video rounded'
+            className='aspect-video rounded lg:aspect-square'
           />
         </div>
-        <div className='w-full sm:w-2/3 space-y-1'>
+        <div className='w-full lg:w-2/3 space-y-1'>
           <h2 className='text-xl font-bold pb-2'>{camp.campName}</h2>
           <div className='flex gap-4'>
-            <p>{camp.time}</p>
+            <p>
+              <strong>Date: </strong>
+              {camp.time} am
+            </p>
             <p>{camp.date}</p>
           </div>
-          <p>{camp.location}</p>
-          <p>Healthcare Professional: {camp.healthcareProfessional}</p>
-          <p>Participants: {camp.participantCount}</p>
-          <p>{camp.description}</p>
+          <p>
+            <strong>Location: </strong>
+            {camp.location}
+          </p>
+          <p>
+            <strong>Healthcare Professional:</strong>{" "}
+            {camp.healthcareProfessional}
+          </p>
+          <strong>Camp Fees:</strong> {camp.campFees}
+          <p>
+            <strong>Participants:</strong> {camp.participantCount}
+          </p>
+          <p className='break-words whitespace-pre-line pb-3'>
+            {camp.description}
+          </p>
           {/* Join Camp Button */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
@@ -168,18 +194,15 @@ const CampDetails = () => {
                       name='campFees'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Camp Fees'</FormLabel>
+                          <FormLabel>Camp Fees</FormLabel>
                           <FormControl>
                             <Input
-                              type='number'
+                              type='string'
                               min={0}
                               placeholder='Enter Camp Fees'
                               {...field}
                               onKeyDown={(e) => e.preventDefault()}
                               className='border-foreground cursor-not-allowed h-7'
-                              onChange={(e) =>
-                                field.onChange(Number(e.target.value))
-                              }
                             />
                           </FormControl>
                           <FormMessage />

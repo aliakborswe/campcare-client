@@ -19,6 +19,7 @@ import { Route, Routes } from "react-router";
 import PrivateRoute from "./PrivetRoute";
 import CheckRole from "./CheckRole";
 import CampDetails from "@/pages/campDetails/CampDetails";
+import Dashboard from "@/dashboard/dashboard/Dashboard";
 
 const AppRoutes = () => {
   return (
@@ -43,7 +44,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       >
-        {/* <Route index element={<div>Dashboard</div>} /> */}
+        <Route index element={<Dashboard/>} />
         {/* user routes */}
         <Route path='analytics' element={<Analytics />} />
         <Route path='user-profile' element={<UserProfile />} />

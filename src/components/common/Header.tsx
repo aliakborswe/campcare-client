@@ -1,5 +1,5 @@
 import { LogIn, LogOut, Menu, Moon, Sun, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg";
 import ActiveLink from "./ActiveLink";
@@ -13,8 +13,6 @@ const Header = () => {
   const [profile, setProfile] = useState(false);
   const { setTheme, theme } = useTheme();
   const { user, logOut } = useAuth();
-
-
 
   const toggleMenu = () => setShowMenu(!showMenu);
 

@@ -4,11 +4,10 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { UserType } from "@/utils/userType";
 import { useQuery } from "@tanstack/react-query";
 
-
 const UserProfile = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data, refetch } = useQuery<UserType>({
+  const { data,refetch } = useQuery<UserType>({
     queryKey: ["user", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/${user?.email}`);

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils";
 import { createElement } from "react";
-import { BadgeDollarSign, ClipboardPlus, LayoutDashboard, NotepadText, SquareKanban, UserRoundCog } from "lucide-react";
+import { BadgeDollarSign, ChartNoAxesCombined, ClipboardPlus, LayoutDashboard, NotepadText, SquareKanban, UserRoundCog } from "lucide-react";
 import { NavLink, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg"
 import useRole from "@/hooks/useRole";
@@ -74,8 +74,13 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
               {/* user sidebar menu */}
               <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
                 <SidebarLink
-                  label='Analytics'
+                  label='Dashboard'
                   icon={LayoutDashboard}
+                  to='/dashboard'
+                />
+                <SidebarLink
+                  label='Analytics'
+                  icon={ChartNoAxesCombined}
                   to='analytics'
                 />
                 <SidebarLink

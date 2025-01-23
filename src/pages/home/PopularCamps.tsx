@@ -17,7 +17,7 @@ const PopularCamps = () => {
       const fetchCamps = async () => {
         setLoading(true);
         try {
-          const res = await axiosSecure.get("/top-camps");
+          const res = await axiosSecure.get("/topcamps");
           setCamps(res.data);
         } catch (err: any) {
           toast.error(err.message);

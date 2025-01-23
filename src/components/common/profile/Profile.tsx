@@ -34,13 +34,12 @@ type UpdateProfileFormValues = z.infer<typeof updateProfileSchema>;
 const image_hosting_key = import.meta.env.VITE_IMGBB_API_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const Profile = ({ data }: { data: UserType }) => {
+const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(data.image);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
-
 
   const form = useForm<UpdateProfileFormValues>({
     resolver: zodResolver(updateProfileSchema),
@@ -79,7 +78,7 @@ const Profile = ({ data }: { data: UserType }) => {
       };
 
       await axiosSecure.put(`/users/${data._id}`, updatedData);
-      console.log(updatedData);
+      refetch();
       toast.success("Profile updated successfully");
       setIsPopoverOpen(false); // Close the popup
     } catch (error: any) {
@@ -116,7 +115,9 @@ const Profile = ({ data }: { data: UserType }) => {
           </p>
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger>
-              <div className="bg-primary text-white dark:text-black py-2 px-4 rounded-md font-semibold">Update</div>
+              <div className='bg-primary text-white dark:text-black py-2 px-4 rounded-md font-semibold'>
+                Update
+              </div>
             </PopoverTrigger>
             <PopoverContent className='fixed inset-0 bg-background flex items-center justify-center w-[320px] p-0 '>
               <Form {...form}>
@@ -203,7 +204,7 @@ const Profile = ({ data }: { data: UserType }) => {
                       />
                     </div>
                   )}
-                  <div className="w-full">
+                  <div className='w-full'>
                     <Button
                       type='submit'
                       disabled={isSubmitting}

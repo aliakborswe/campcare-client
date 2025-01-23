@@ -78,8 +78,8 @@ const AvailableCamps = () => {
         >
           <option value=''>Sort By</option>
           <option value='most-registered'>Most Registered</option>
-          <option value='camp-fees'>Camp Fees</option>
-          <option value='alphabetical'>Alphabetical Order</option>
+          <option value='camp-fees'>Camp Fees(L-H)</option>
+          <option value='alphabetical'>Alphabetical Order(A-Z)</option>
         </select>
         <div className="hidden lg:block">
           <Button onClick={handleLayoutToggle}>
@@ -94,11 +94,9 @@ const AvailableCamps = () => {
           layout === "three-column" ? "grid-cols-3" : "grid-cols-2"
         }`}
       >
-        {loading ? (
-          <Spinner />
-        ) : (
+        {
           filteredCamps.map((camp) => <CampCard key={camp._id} camp={camp} />)
-        )}
+        }
       </div>
     </Wrapper>
   );

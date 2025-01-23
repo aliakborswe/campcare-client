@@ -15,7 +15,7 @@ const AdminProfile = () => {
     },
   });
 
-  return <div>{data && <Profile data={data} refetch={refetch}/>}</div>;
+  return <div>{data && <Profile data={data} refetch={refetch} />}</div>;
 };
 
 export default AdminProfile;
