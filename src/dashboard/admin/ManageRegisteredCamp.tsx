@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
 import {
   Table,
   TableBody,
@@ -10,16 +9,13 @@ import {
 } from "@/components/ui/table";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { ParticipantInterface } from "@/utils/participantInterface";
 import Spinner from "@/components/common/Spinner";
 import useAuth from "@/hooks/useAuth";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { Button } from "@/components/ui/button";
 
 const ManageRegisteredCamp = () => {
-  const [registeredCamps, setRegisteredCamps] = useState<
-    ParticipantInterface[]
-  >([]);
+  const [registeredCamps, setRegisteredCamps] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -102,7 +98,7 @@ const ManageRegisteredCamp = () => {
             (
               {
                 _id,
-                campId: { campName, campFees } = {},
+                campId,
                 participantName,
                 paymentStatus,
                 confirmationStatus,
@@ -111,9 +107,9 @@ const ManageRegisteredCamp = () => {
             ) => (
               <TableRow key={_id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{campName}</TableCell>
-                <TableCell>{campFees}</TableCell>
                 <TableCell>{participantName}</TableCell>
+                <TableCell>{campId?.campName}</TableCell>
+                <TableCell>{campId?.campFees}</TableCell>
                 <TableCell>{paymentStatus}</TableCell>
                 <TableCell>{confirmationStatus}</TableCell>
                 <TableCell>

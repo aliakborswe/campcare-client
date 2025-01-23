@@ -10,16 +10,13 @@ import {
 } from "@/components/ui/table";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { ParticipantInterface } from "@/utils/participantInterface";
 import Spinner from "@/components/common/Spinner";
 import useAuth from "@/hooks/useAuth";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { Button } from "@/components/ui/button";
 
 const RegisteredCamps = () => {
-  const [registeredCamps, setRegisteredCamps] = useState<
-    ParticipantInterface[]
-  >([]);
+  const [registeredCamps, setRegisteredCamps] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -90,7 +87,7 @@ const RegisteredCamps = () => {
           <TableRow>
             <TableHead>No</TableHead>
             <TableHead>Camp Name</TableHead>
-            <TableHead>Camp Email</TableHead>
+            <TableHead>Camp Fees</TableHead>
             <TableHead>Participant Name</TableHead>
             <TableHead>Payment Status</TableHead>
             <TableHead>Confirmation Status</TableHead>
@@ -103,7 +100,7 @@ const RegisteredCamps = () => {
             (
               {
                 _id,
-                campId: { campName, campFees } = {},
+                campId,
                 participantName,
                 paymentStatus,
                 confirmationStatus,
@@ -112,8 +109,8 @@ const RegisteredCamps = () => {
             ) => (
               <TableRow key={_id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{campName}</TableCell>
-                <TableCell>{campFees}</TableCell>
+                <TableCell>{campId?.campName}</TableCell>
+                <TableCell>{campId?.campFees}</TableCell>
                 <TableCell>{participantName}</TableCell>
                 <TableCell>
                   {paymentStatus === "Paid" ? (
