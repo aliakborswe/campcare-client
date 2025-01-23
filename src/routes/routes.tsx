@@ -20,6 +20,7 @@ import PrivateRoute from "./PrivetRoute";
 import CheckRole from "./CheckRole";
 import CampDetails from "@/pages/campDetails/CampDetails";
 import Dashboard from "@/dashboard/dashboard/Dashboard";
+import Payment from "@/dashboard/user/Payment";
 
 const AppRoutes = () => {
   return (
@@ -49,6 +50,7 @@ const AppRoutes = () => {
         <Route path='analytics' element={<Analytics />} />
         <Route path='user-profile' element={<UserProfile />} />
         <Route path='registered-camp' element={<RegisteredCamps />} />
+        <Route path='payment' element={<Payment />} />
         <Route path='payment-history' element={<PaymentHistory />} />
         {/* admin routes */}
         <Route

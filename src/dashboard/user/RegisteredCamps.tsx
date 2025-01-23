@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import {  Pencil,  Trash2 } from "lucide-react";
+import { Link } from "react-router";
 import {
   Table,
   TableBody,
@@ -18,10 +17,11 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { Button } from "@/components/ui/button";
 
 const RegisteredCamps = () => {
-  const [registeredCamps, setRegisteredCamps] = useState<ParticipantInterface[]>([]);
+  const [registeredCamps, setRegisteredCamps] = useState<
+    ParticipantInterface[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
@@ -42,8 +42,6 @@ const RegisteredCamps = () => {
     fetchPosts();
   }, [axiosSecure, user?.email]);
 
-
-
   // handle Delete button
   const handleDelete = async (id: string) => {
     try {
@@ -59,7 +57,7 @@ const RegisteredCamps = () => {
         if (result.isConfirmed) {
           axiosSecure.delete(`/participants/${id}`).then(() => {
             setRegisteredCamps(
-              registeredCamps.filter((application) => application._id !== id)
+              registeredCamps.filter((camp) => camp._id !== id)
             );
             Swal.fire({
               title: "Deleted!",
@@ -86,7 +84,7 @@ const RegisteredCamps = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className='p-6'>
       <Table>
         <TableHeader>
           <TableRow>
@@ -119,28 +117,36 @@ const RegisteredCamps = () => {
                 <TableCell>{participantName}</TableCell>
                 <TableCell>
                   {paymentStatus === "Paid" ? (
-                    <div className='text-green-400'>Paid</div>
-                  ) : (
-                    <div className='bg-primary text-white dark:text-black w-12 text-center py-1 rounded-sm cursor-pointer'>
-                      Pay
+                    <div className='bg-green-500 text-black w-12 text-center py-1 rounded-sm cursor-not-allowed'>
+                      Paid
                     </div>
+                  ) : (
+                    <Link
+                      to={"/dashboard/payment"}
+                      className='bg-primary text-white dark:text-black text-center py-1 px-3.5 rounded-sm cursor-pointer'
+                    >
+                      Pay
+                    </Link>
                   )}
                 </TableCell>
                 <TableCell>{confirmationStatus}</TableCell>
                 <TableCell>
                   {confirmationStatus !== "Confirmed" ? (
-                    <Button onClick={()=>handleDelete(_id)} variant={"destructive"}>
+                    <Button
+                      onClick={() => handleDelete(_id)}
+                      variant={"destructive"}
+                    >
                       Cancel
                     </Button>
                   ) : (
-                    <div>N/A</div>
+                    <div className='cursor-not-allowed'>N/A</div>
                   )}
                 </TableCell>
                 <TableCell>
                   {paymentStatus === "Paid" ? (
                     <Button variant={"default"}>Feedback</Button>
                   ) : (
-                    <div>N/A</div>
+                    <div className='cursor-not-allowed'>N/A</div>
                   )}
                 </TableCell>
               </TableRow>
