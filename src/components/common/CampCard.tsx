@@ -30,7 +30,7 @@ const CampCard = ({ camp }: CampCardProps) => {
         <strong>Healthcare Professional:</strong> {camp.healthcareProfessional}
       </p>
       <p>
-        <strong>Camp Fees:</strong> {camp.campFees}
+        <strong>Camp Fees:</strong> {camp.campFees}$
       </p>
       <p>
         <strong>Participants:</strong> {camp.participantCount}

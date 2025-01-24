@@ -110,7 +110,7 @@ const RegisteredCamps = () => {
               <TableRow key={_id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{campId?.campName}</TableCell>
-                <TableCell>{campId?.campFees}</TableCell>
+                <TableCell>{campId?.campFees}$</TableCell>
                 <TableCell>{participantName}</TableCell>
                 <TableCell>
                   {paymentStatus === "Paid" ? (
@@ -119,7 +119,7 @@ const RegisteredCamps = () => {
                     </div>
                   ) : (
                     <Link
-                      to={"/dashboard/payment"}
+                      to={`/dashboard/payment/${_id}`}
                       className='bg-primary text-white dark:text-black text-center py-1 px-3.5 rounded-sm cursor-pointer'
                     >
                       Pay
@@ -128,7 +128,7 @@ const RegisteredCamps = () => {
                 </TableCell>
                 <TableCell>{confirmationStatus}</TableCell>
                 <TableCell>
-                  {confirmationStatus !== "Confirmed" ? (
+                  {paymentStatus !== "Paid" ? (
                     <Button
                       onClick={() => handleDelete(_id)}
                       variant={"destructive"}

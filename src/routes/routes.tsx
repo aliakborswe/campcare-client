@@ -29,7 +29,14 @@ const AppRoutes = () => {
       <Route path='/' element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path='camps' element={<AvailableCamps />} />
-        <Route path='camps/:id' element={<CampDetails />} />
+        <Route
+          path='camps/:id'
+          element={
+            <PrivateRoute>
+              <CampDetails />
+            </PrivateRoute>
+          }
+        />
         <Route path='about' element={<About />} />
       </Route>
       {/* Auth route with base layout */}
@@ -51,7 +58,7 @@ const AppRoutes = () => {
         <Route path='analytics' element={<Analytics />} />
         <Route path='user-profile' element={<UserProfile />} />
         <Route path='registered-camp' element={<RegisteredCamps />} />
-        <Route path='payment' element={<Payment />} />
+        <Route path='payment/:participantId' element={<Payment />} />
         <Route path='payment-history' element={<PaymentHistory />} />
         {/* admin routes */}
         <Route

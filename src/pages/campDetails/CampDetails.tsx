@@ -98,7 +98,6 @@ const CampDetails = () => {
         gender: data.gender,
         emergencyContact: data.emergencyContact,
       };
-      console.log(dataToSend);
       const res = await axiosSecure.post("/participants", dataToSend);
       navigate("/");
       toast.success(res.data.message);
@@ -144,7 +143,7 @@ const CampDetails = () => {
             <strong>Healthcare Professional:</strong>{" "}
             {camp.healthcareProfessional}
           </p>
-          <strong>Camp Fees:</strong> {camp.campFees}
+          <strong>Camp Fees:</strong> {camp.campFees}$
           <p>
             <strong>Participants:</strong> {camp.participantCount}
           </p>
@@ -171,6 +170,7 @@ const CampDetails = () => {
                   <div className='grid grid-cols-2 gap-4 text-sm'>
                     {/* CampName field */}
                     <FormField
+                      disabled
                       control={form.control}
                       name='campName'
                       render={({ field }) => (
@@ -190,6 +190,7 @@ const CampDetails = () => {
                     />
                     {/* Camp fees field */}
                     <FormField
+                      disabled
                       control={form.control}
                       name='campFees'
                       render={({ field }) => (
@@ -211,6 +212,7 @@ const CampDetails = () => {
                     />
                     {/* Location field */}
                     <FormField
+                      disabled
                       control={form.control}
                       name='location'
                       render={({ field }) => (
@@ -230,6 +232,7 @@ const CampDetails = () => {
                     />
                     {/* Healthcare Professional field */}
                     <FormField
+                      disabled
                       control={form.control}
                       name='healthcareProfessional'
                       render={({ field }) => (
@@ -249,6 +252,7 @@ const CampDetails = () => {
                     />
                     {/* Participant Name field */}
                     <FormField
+                      disabled
                       control={form.control}
                       name='participantName'
                       render={({ field }) => (
@@ -268,6 +272,7 @@ const CampDetails = () => {
                     />
                     {/* Participant Email field */}
                     <FormField
+                      disabled
                       control={form.control}
                       name='participantEmail'
                       render={({ field }) => (

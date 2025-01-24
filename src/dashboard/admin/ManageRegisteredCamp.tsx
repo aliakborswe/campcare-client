@@ -109,7 +109,7 @@ const ManageRegisteredCamp = () => {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{participantName}</TableCell>
                 <TableCell>{campId?.campName}</TableCell>
-                <TableCell>{campId?.campFees}</TableCell>
+                <TableCell>{campId?.campFees}$</TableCell>
                 <TableCell>{paymentStatus}</TableCell>
                 <TableCell>{confirmationStatus}</TableCell>
                 <TableCell>
