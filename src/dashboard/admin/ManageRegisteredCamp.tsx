@@ -10,36 +10,39 @@ import {
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import Spinner from "@/components/common/Spinner";
-import useAuth from "@/hooks/useAuth";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 
 const ManageRegisteredCamp = () => {
-  const [registeredCamps, setRegisteredCamps] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      try {
-        const res = await axiosSecure.get(
-          "/participants"
-        );
-        setRegisteredCamps(res.data);
-      } catch (err: any) {
-        toast.error(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const {
+    data: registeredCamps,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["camps"],
+    queryFn: async () => {
+      const res = await axiosSecure("/participants");
+      return res.data;
+    },
+  });
 
-    fetchPosts();
-  }, [axiosSecure, user?.email]);
+
+  // handle update ConfirmationStatus by id
+  const updateConfirmStatus = async (id: string) => {
+    axiosSecure
+      .patch(`/participants/${id}`, { confirmationStatus: "Confirmed" })
+      .then(() => {
+        refetch();
+        toast.success("Confirmation status updated successfully");
+      })
+      .catch((err: any) => toast.error(err.message));
+  };
 
   // handle Delete button
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -52,9 +55,7 @@ const ManageRegisteredCamp = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axiosSecure.delete(`/participants/${id}`).then(() => {
-            setRegisteredCamps(
-              registeredCamps.filter((camp) => camp._id !== id)
-            );
+            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -68,7 +69,7 @@ const ManageRegisteredCamp = () => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return <Spinner />;
   }
   if (registeredCamps.length === 0) {
@@ -111,9 +112,23 @@ const ManageRegisteredCamp = () => {
                 <TableCell>{campId?.campName}</TableCell>
                 <TableCell>{campId?.campFees}$</TableCell>
                 <TableCell>{paymentStatus}</TableCell>
-                <TableCell>{confirmationStatus}</TableCell>
+                {/* <TableCell>{confirmationStatus}</TableCell> */}
                 <TableCell>
-                  {confirmationStatus !== "Confirmed" ? (
+                  {confirmationStatus === "Pending" ? (
+                    <Button
+                      onClick={() => updateConfirmStatus(_id)}
+                      variant={"default"}
+                    >
+                      {confirmationStatus}
+                    </Button>
+                  ) : (
+                    <div className='cursor-not-allowed'>
+                      {confirmationStatus}
+                    </div>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {paymentStatus !== "Paid" ? (
                     <Button
                       onClick={() => handleDelete(_id)}
                       variant={"destructive"}

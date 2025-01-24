@@ -31,9 +31,8 @@ const CheckoutForm = () => {
       try {
         const res = await axiosSecure.get(`/participants/${participantId}`);
         setAmount(res.data?.campFees * 100);
-      } catch (error) {
-        console.error("Error fetching participant data:", error);
-        toast.error("Failed to load participant data.");
+      } catch (err: any) {
+        toast.error(err.message || "Failed to load participant data.");
       }
     };
     fetchData();
@@ -64,7 +63,7 @@ const CheckoutForm = () => {
       // Create payment intent
       const { data: clientSecret } = await axiosSecure.post("/payment-intent", {
         amount: amount,
-        currency: "usd"
+        currency: "usd",
       });
 
       // Confirm payment
@@ -91,7 +90,6 @@ const CheckoutForm = () => {
         });
       }
     } catch (err: any) {
-      console.error("Error during payment:", err);
       toast.error(err.message || "Payment failed.");
       setError("Payment failed. Please try again.");
     } finally {
