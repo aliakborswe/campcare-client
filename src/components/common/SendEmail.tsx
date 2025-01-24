@@ -2,6 +2,7 @@ import emailjs from "@emailjs/browser";
 import { useRef } from "react";
 import { Button } from "../ui/button";
 import { toast } from "react-toastify";
+import Wrapper from "./Wrapper";
 
 const SendEmail = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -29,51 +30,71 @@ const SendEmail = () => {
   };
 
   return (
-    <form ref={form} onSubmit={sendEmail}>
-      <div className='grid grid-cols-1 gap-4 '>
-        <div className='sm:col-span-2'>
-          <label htmlFor='user_name' className='block text-sm font-semibold '>
-            Name
-          </label>
-          <input
-            id='user_name'
-            name='user_name'
-            type='text'
-            autoComplete='given-name'
-            required
-            className='w-full rounded-sm p-1'
-          />
+    <section>
+      <Wrapper>
+        <div>
+          <h1 className='text-xl sm:text-2xl lg:text-3xl font-bold text-center py-8'>
+            Contact Us
+          </h1>
+          <form ref={form} onSubmit={sendEmail}>
+            <div className='space-y-6'>
+              <div className='flex flex-col gap-6 sm:flex-row justify-between'>
+                <div className='space-y-2 w-full'>
+                  <label
+                    htmlFor='user_name'
+                    className='block text-sm font-semibold '
+                  >
+                    Name
+                  </label>
+                  <input
+                    id='user_name'
+                    name='user_name'
+                    type='text'
+                    autoComplete='given-name'
+                    required
+                    className='w-full rounded-lg p-2 shadow-lg'
+                  />
+                </div>
+                <div className='space-y-2 w-full'>
+                  <label
+                    htmlFor='user_email'
+                    className='block text-sm font-semibold '
+                  >
+                    Email
+                  </label>
+                  <input
+                    id='user_email'
+                    name='user_email'
+                    type='email'
+                    autoComplete='email'
+                    required
+                    className='w-full rounded-lg p-2 shadow-lg'
+                  />
+                </div>
+              </div>
+              <div className='space-y-2'>
+                <label
+                  htmlFor='message'
+                  className='block text-sm font-semibold '
+                >
+                  Message
+                </label>
+                <textarea
+                  id='message'
+                  name='message'
+                  rows={6}
+                  required
+                  className='w-full rounded-lg p-2 shadow-lg'
+                />
+              </div>
+              <Button type='submit' className='w-full hover:bg-primary'>
+                Send Email
+              </Button>
+            </div>
+          </form>
         </div>
-        <div className='sm:col-span-2'>
-          <label htmlFor='user_email' className='block text-sm font-semibold '>
-            Email
-          </label>
-          <input
-            id='user_email'
-            name='user_email'
-            type='email'
-            autoComplete='email'
-            required
-            className='w-full rounded-sm p-1'
-          />
-        </div>
-        <div className='sm:col-span-2'>
-          <label htmlFor='message' className='block text-sm font-semibold '>
-            Message
-          </label>
-          <textarea
-            id='message'
-            name='message'
-            rows={2}
-            required
-            className='w-full rounded-sm p-1'
-          />
-        </div>
-      </div>
-      <Button type='submit' className='w-full hover:bg-primary mt-4'>
-        Send Email
-      </Button>
-    </form>
+      </Wrapper>
+    </section>
   );
 };
 

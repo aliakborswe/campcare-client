@@ -1,3 +1,4 @@
+import SendEmail from "@/components/common/SendEmail";
 import Banner from "./Banner";
 import PopularCamps from "./PopularCamps";
 
@@ -7,6 +8,7 @@ const Home = () => {
         <div>
             <Banner/>
             <PopularCamps/>
+            <SendEmail/>
         </div>
     );
 };
