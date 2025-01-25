@@ -21,6 +21,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
+import { Card, CardContent } from "@/components/ui/card";
 
 const updateProfileSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -101,127 +102,130 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
 
   return (
     <div className='p-4 sm:mr-10 lg:mr-20 mt-10'>
-      <div className='card bg-base-100 shadow-xl flex flex-col sm:flex-row gap-8 justify-start items-center p-4'>
-        <img
-          src={data.image}
-          className='aspect-square w-48 rounded-full'
-          alt='photo'
-        />
-
-        <div className='space-y-2'>
-          <h2 className='text-2xl sm:text-3xl font-semibold text-accent'>
-           <span>Name: </span> {data.name}
-          </h2>
-          <p className='text-md sm:text-xl font-semibold'><span>Email Address: </span>{data.email}</p>
-          <p className='text-md sm:text-xl font-semibold pb-3'>
-           <span>Contact Number: </span> {data.contact}
-          </p>
-          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-            <PopoverTrigger>
-              <div className='bg-primary text-white dark:text-black py-2 px-4 rounded-md font-semibold'>
-                Update
-              </div>
-            </PopoverTrigger>
-            <PopoverContent className='fixed inset-0 bg-background flex items-center justify-center w-[320px] p-0 '>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className='space-y-4 bg-white p-6 rounded-lg shadow-lg'
-                >
-                  <FormField
-                    control={form.control}
-                    name='name'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <input
-                            type='text'
-                            {...field}
-                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+      <Card className='flex items-center justify-center border-none shadow-none'>
+        <CardContent className='flex aspect-square items-center justify-center border shadow-lg rounded-md'>
+          <div className='text-center'>
+            <img
+              src={data.image}
+              alt={data.name}
+              className='w-36 h-36 rounded-full mx-auto'
+            />
+            <h2 className='text-2xl sm:text-3xl font-semibold text-accent'>
+              <span>Name: </span> {data.name}
+            </h2>
+            <p className='text-md sm:text-xl font-semibold'>
+              <span>Email Address: </span>
+              {data.email}
+            </p>
+            <p className='text-md sm:text-xl font-semibold pb-3'>
+              <span>Contact Number: </span> {data.contact}
+            </p>
+            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+              <PopoverTrigger>
+                <div className='bg-primary text-white dark:text-black py-2 px-4 rounded-md font-semibold'>
+                  Update
+                </div>
+              </PopoverTrigger>
+              <PopoverContent>
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                  >
+                    <FormField
+                      control={form.control}
+                      name='name'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Name</FormLabel>
+                          <FormControl>
+                            <input
+                              type='text'
+                              {...field}
+                              className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='email'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <input
+                              disabled
+                              type='email'
+                              {...field}
+                              className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm cursor-not-allowed'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='contact'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Contact</FormLabel>
+                          <FormControl>
+                            <input
+                              type='text'
+                              {...field}
+                              className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='image'
+                      render={() => (
+                        <FormItem>
+                          <FormLabel>Image</FormLabel>
+                          <FormControl>
+                            <input
+                              type='file'
+                              accept='image/*'
+                              onChange={handleImageChange}
+                              className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    {imagePreview && (
+                      <div className='mt-4'>
+                        <img
+                          src={imagePreview}
+                          alt='Preview'
+                          className='w-full h-24 rounded-sm'
+                        />
+                      </div>
                     )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='email'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <input
-                            disabled
-                            type='email'
-                            {...field}
-                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm cursor-not-allowed'
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='contact'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Contact</FormLabel>
-                        <FormControl>
-                          <input
-                            type='text'
-                            {...field}
-                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='image'
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>Image</FormLabel>
-                        <FormControl>
-                          <input
-                            type='file'
-                            accept='image/*'
-                            onChange={handleImageChange}
-                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  {imagePreview && (
-                    <div className='mt-4'>
-                      <img
-                        src={imagePreview}
-                        alt='Preview'
-                        className='w-full h-24 rounded-sm'
-                      />
+                    <div className='w-full'>
+                      <Button
+                        type='submit'
+                        disabled={isSubmitting}
+                        className='w-full mt-4'
+                      >
+                        {isSubmitting ? "Saving..." : "Save"}
+                      </Button>
                     </div>
-                  )}
-                  <div className='w-full'>
-                    <Button
-                      type='submit'
-                      disabled={isSubmitting}
-                      className='w-full'
-                    >
-                      {isSubmitting ? "Saving..." : "Save"}
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            </PopoverContent>
-          </Popover>
-        </div>
-      </div>
+                  </form>
+                </Form>
+              </PopoverContent>
+            </Popover>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

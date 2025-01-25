@@ -1,6 +1,7 @@
 import Wrapper from "@/components/common/Wrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Skeleton } from "@/components/ui/skeleton";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { useState, useEffect } from "react";
 
@@ -72,7 +73,13 @@ const Review = () => {
                   </CarouselItem>
                 ))
               ) : (
-                <div>Loading reviews...</div>
+                <div className='flex items-center space-x-4 mx-12'>
+                  <Skeleton className='h-12 w-12 rounded-full' />
+                  <div className='space-y-2'>
+                    <Skeleton className='h-4 w-[250px]' />
+                    <Skeleton className='h-4 w-[200px]' />
+                  </div>
+                </div>
               )}
             </CarouselContent>
             <CarouselPrevious className='-left-0' />

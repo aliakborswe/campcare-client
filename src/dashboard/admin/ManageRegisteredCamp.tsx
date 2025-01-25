@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -13,6 +12,16 @@ import Spinner from "@/components/common/Spinner";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
+interface Camp {
+  _id: string;
+  campId: {
+    campName: string;
+    campFees: number;
+  };
+  participantName: string;
+  paymentStatus: string;
+  confirmationStatus: string;
+}
 
 const ManageRegisteredCamp = () => {
   const axiosSecure = useAxiosSecure();
@@ -21,14 +30,13 @@ const ManageRegisteredCamp = () => {
     data: registeredCamps,
     refetch,
     isLoading,
-  } = useQuery({
+  } = useQuery<Camp[]>({
     queryKey: ["camps"],
     queryFn: async () => {
       const res = await axiosSecure("/participants");
       return res.data;
     },
   });
-
 
   // handle update ConfirmationStatus by id
   const updateConfirmStatus = async (id: string) => {
@@ -72,7 +80,7 @@ const ManageRegisteredCamp = () => {
   if (isLoading) {
     return <Spinner />;
   }
-  if (registeredCamps.length === 0) {
+  if ((registeredCamps?.length ?? 0) === 0) {
     return (
       <div className='flex justify-center items-center'>
         <h1 className='text-3xl font-bold text-red-500'>No data found</h1>
@@ -95,7 +103,7 @@ const ManageRegisteredCamp = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {registeredCamps.map(
+          {registeredCamps?.map(
             (
               {
                 _id,
@@ -112,9 +120,8 @@ const ManageRegisteredCamp = () => {
                 <TableCell>{campId?.campName}</TableCell>
                 <TableCell>{campId?.campFees}$</TableCell>
                 <TableCell>{paymentStatus}</TableCell>
-                {/* <TableCell>{confirmationStatus}</TableCell> */}
                 <TableCell>
-                  {confirmationStatus === "Pending" ? (
+                  {paymentStatus !== "Paid" ? (
                     <Button
                       onClick={() => updateConfirmStatus(_id)}
                       variant={"default"}

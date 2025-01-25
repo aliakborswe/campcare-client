@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // TODO: change base url
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: "https://camp-care-server.vercel.app/api/v1",
 });
 const useAxiosPublic = () => {
     return axiosInstance;

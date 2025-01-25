@@ -45,7 +45,7 @@ const AvailableCamps = () => {
     if (sortCriteria === "most-registered") {
       filtered.sort((a, b) => b.participantCount - a.participantCount);
     } else if (sortCriteria === "camp-fees") {
-      filtered.sort((a, b) => a.campFees - b.campFees);
+      filtered.sort((a, b) => Number(a.campFees) - Number(b.campFees));
     } else if (sortCriteria === "alphabetical") {
       filtered.sort((a, b) => a.campName.localeCompare(b.campName));
     }
@@ -59,6 +59,14 @@ const AvailableCamps = () => {
 
   if (loading) {
     return <Spinner />;
+  }
+
+  if (filteredCamps.length === 0) {
+    return (
+      <div className='flex justify-center items-center'>
+        <h1 className='text-3xl font-bold text-red-500'>No data found</h1>
+      </div>
+    );
   }
 
   return (

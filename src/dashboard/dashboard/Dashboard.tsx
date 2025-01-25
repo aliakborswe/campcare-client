@@ -92,7 +92,7 @@ const Dashboard = () => {
   return (
     <div className='px-4 py-6 flex flex-col md:flex-row gap-8'>
       {/* cards and charts */}
-      <div className='w-full md:w-2/3 text-black flex flex-col justify-between gap-6'>
+      <div className='w-full md:w-2/3 text-black flex flex-col gap-8'>
         <div className='flex gap-4 justify-between'>
           <div className='bg-white shadow-lg rounded-md w-full p-6'>
             <div className=' flex items-center gap-4 justify-between text-xl font-bold'>
@@ -162,7 +162,7 @@ const Dashboard = () => {
           orientation='vertical'
           className='w-full max-w-xs'
         >
-          <CarouselContent className=' h-screen'>
+          <CarouselContent className=''>
             {reviews.length > 0 ? (
               reviews.map((review) => (
                 <CarouselItem
@@ -170,12 +170,12 @@ const Dashboard = () => {
                   className='md:basis-1/2 lg:basis-1/3 shadow-lg flex items-center'
                 >
                   <Card>
-                    <CardContent className='flex aspect-square items-center justify-center p-6'>
+                    <CardContent className='flex aspect-square items-center justify-center'>
                       <div className='text-center'>
                         <img
                           src={review.userImage}
                           alt={review.userName}
-                          className='w-16 h-16 rounded-full mx-auto'
+                          className='w-20 h-20 rounded-full mx-auto'
                         />
                         <h3 className='text-xl font-semibold mt-4'>
                           {review.userName}

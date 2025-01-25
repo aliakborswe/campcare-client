@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Button } from "../ui/button";
 import { toast } from "react-toastify";
 import Wrapper from "./Wrapper";
+import xrayImg from "../../assets/images/xray.avif"
 
 const SendEmail = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -30,9 +31,9 @@ const SendEmail = () => {
   };
 
   return (
-    <section>
+    <section className='bg-contact-image bg-no-repeat bg-cover bg-black/50 bg-blend-overlay '>
       <Wrapper>
-        <div>
+        <div className='bg-black/30 rounded-md px-4 pb-8 text-white '>
           <h1 className='text-xl sm:text-2xl lg:text-3xl font-bold text-center py-8'>
             Contact Us
           </h1>
@@ -52,7 +53,7 @@ const SendEmail = () => {
                     type='text'
                     autoComplete='given-name'
                     required
-                    className='w-full rounded-lg p-2 shadow-lg'
+                    className='w-full bg-transparent border rounded-lg p-2 shadow-lg'
                   />
                 </div>
                 <div className='space-y-2 w-full'>
@@ -68,7 +69,7 @@ const SendEmail = () => {
                     type='email'
                     autoComplete='email'
                     required
-                    className='w-full rounded-lg p-2 shadow-lg'
+                    className='w-full bg-transparent border rounded-lg p-2 shadow-lg'
                   />
                 </div>
               </div>
@@ -84,7 +85,7 @@ const SendEmail = () => {
                   name='message'
                   rows={6}
                   required
-                  className='w-full rounded-lg p-2 shadow-lg'
+                  className='w-full bg-transparent border rounded-lg p-2 shadow-lg'
                 />
               </div>
               <Button type='submit' className='w-full hover:bg-primary'>
