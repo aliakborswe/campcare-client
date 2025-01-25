@@ -35,7 +35,7 @@ const SendEmail = () => {
       <Wrapper>
         <div className='bg-black/30 rounded-md px-4 pb-8 text-white '>
           <h1 className='text-xl sm:text-2xl lg:text-3xl font-bold text-center py-8'>
-            Contact Us
+            Join Us on the Journey
           </h1>
           <form ref={form} onSubmit={sendEmail}>
             <div className='space-y-6'>
