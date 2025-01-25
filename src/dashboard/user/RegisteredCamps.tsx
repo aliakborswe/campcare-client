@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   Table,
   TableBody,
@@ -14,12 +14,67 @@ import Spinner from "@/components/common/Spinner";
 import useAuth from "@/hooks/useAuth";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { Button } from "@/components/ui/button";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+
+const feedbackSchema = z.object({
+  feedback: z.string().min(1, { message: "Feedback is required" }),
+  rating: z
+    .number()
+    .min(1, "Rating is required")
+    .max(5, "Rating must be between 1 and 5"),
+});
 
 const RegisteredCamps = () => {
   const [registeredCamps, setRegisteredCamps] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<z.infer<typeof feedbackSchema>>({
+    resolver: zodResolver(feedbackSchema),
+    defaultValues: {
+      feedback: "",
+      rating: 1,
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof feedbackSchema>) => {
+    setIsSubmitting(true);
+
+    try {
+      const feedbackData = {
+        userName: user?.displayName || "anonymous",
+        userEmail: user?.email || "anonymous",
+        feedback: values.feedback,
+        rating: Number(values.rating),
+      };
+      await axiosSecure.post("/feedback", feedbackData);
+      toast.success("Feedback Submit successfully");
+      form.reset()
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -141,7 +196,71 @@ const RegisteredCamps = () => {
                 </TableCell>
                 <TableCell>
                   {paymentStatus === "Paid" ? (
-                    <Button variant={"default"}>Feedback</Button>
+                    <Popover>
+                      <PopoverTrigger>
+                        <div className='bg-primary text-white dark:text-black py-2 px-4 rounded-md font-semibold'>
+                          Feedback
+                        </div>
+                      </PopoverTrigger>
+                      <PopoverContent className='p-0 mr-12'>
+                        <Form {...form}>
+                          <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className='space-y-4 bg-white p-6 rounded-lg shadow-lg'
+                          >
+                            {/* Feedback Textarea */}
+                            <FormField
+                              control={form.control}
+                              name='feedback'
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Feedback</FormLabel>
+                                  <FormControl>
+                                    <Textarea
+                                      {...field}
+                                      placeholder='Write your feedback here...'
+                                      className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            {/* Rating Component */}
+                            <FormField
+                              control={form.control}
+                              name='rating'
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Rating</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      type='number'
+                                      min={1}
+                                      max={5}
+                                      {...field}
+                                      onChange={(e) =>
+                                        field.onChange(Number(e.target.value))
+                                      }
+                                      className='mt-1 p-1 block w-full border rounded-md shadow-sm'
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <Button
+                              type='submit'
+                              disabled={isSubmitting}
+                              className='w-full'
+                            >
+                              {isSubmitting ? "Submitting..." : "Submit"}
+                            </Button>
+                          </form>
+                        </Form>
+                      </PopoverContent>
+                    </Popover>
                   ) : (
                     <div className='cursor-not-allowed'>N/A</div>
                   )}

@@ -61,7 +61,7 @@ const CampDetails = () => {
     resolver: zodResolver(registeredCampSchema),
     defaultValues: {
       campName: "",
-      campFees: 0,
+      campFees: "",
       location: "",
       healthcareProfessional: "",
       participantName: "",
@@ -155,7 +155,7 @@ const CampDetails = () => {
             <DialogTrigger asChild>
               <Button variant='default'>Join Camp</Button>
             </DialogTrigger>
-            <DialogContent className='w-full p-0 m-0'>
+            <DialogContent className='w-full p-0 mx-2.5'>
               <DialogHeader className='px-2'>
                 <DialogTitle className='pt-2 pb-0 mb-0'>
                   Register this Camp
