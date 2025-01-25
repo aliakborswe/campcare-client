@@ -29,14 +29,7 @@ const AppRoutes = () => {
       <Route path='/' element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path='camps' element={<AvailableCamps />} />
-        <Route
-          path='camps/:id'
-          element={
-            <PrivateRoute>
-              <CampDetails />
-            </PrivateRoute>
-          }
-        />
+        <Route path='camps/:id' element={<CampDetails />} />
         <Route path='about' element={<About />} />
       </Route>
       {/* Auth route with base layout */}

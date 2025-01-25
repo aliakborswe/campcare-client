@@ -153,7 +153,9 @@ const CampDetails = () => {
           {/* Join Camp Button */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant='default'>Join Camp</Button>
+              <Button disabled={!user} variant='default'>
+                Join Camp
+              </Button>
             </DialogTrigger>
             <DialogContent className='w-full p-0 mx-2.5'>
               <DialogHeader className='px-2'>

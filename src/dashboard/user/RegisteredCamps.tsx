@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import {
   Table,
   TableBody,
@@ -47,7 +47,7 @@ const RegisteredCamps = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  console.log(user?.photoURL)
+  console.log(user?.photoURL);
 
   const form = useForm<z.infer<typeof feedbackSchema>>({
     resolver: zodResolver(feedbackSchema),
@@ -69,7 +69,7 @@ const RegisteredCamps = () => {
       };
       await axiosSecure.post("/feedback", feedbackData);
       toast.success("Feedback Submit successfully");
-      form.reset()
+      form.reset();
     } catch (error: any) {
       toast.error(error.message);
     } finally {

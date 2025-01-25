@@ -33,7 +33,7 @@ const Review = () => {
   }, [axiosSecure]); 
 
   return (
-    <section>
+    <section className="bg-primary/5">
       <Wrapper>
         <h1 className='text-center text-xl md:text-2xl lg:text-3xl font-bold pb-8'>
           Reviews
@@ -47,14 +47,13 @@ const Review = () => {
                     key={review._id}
                     className='md:basis-1/2 lg:basis-1/3  flex items-center'
                   >
-                    <div className='p-1'>
                       <Card>
-                        <CardContent className='flex aspect-square items-center justify-center p-6'>
+                        <CardContent className='flex aspect-square items-center justify-center py-6'>
                           <div className='text-center'>
                             <img
                               src={review.userImage}
                               alt={review.userName}
-                              className='w-16 h-16 rounded-full mx-auto'
+                              className='w-28 h-28 rounded-full mx-auto'
                             />
                             <h3 className='text-xl font-semibold mt-4'>
                               {review.userName}
@@ -69,7 +68,6 @@ const Review = () => {
                           </div>
                         </CardContent>
                       </Card>
-                    </div>
                   </CarouselItem>
                 ))
               ) : (

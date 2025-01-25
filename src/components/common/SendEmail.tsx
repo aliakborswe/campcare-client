@@ -3,7 +3,6 @@ import { useRef } from "react";
 import { Button } from "../ui/button";
 import { toast } from "react-toastify";
 import Wrapper from "./Wrapper";
-import xrayImg from "../../assets/images/xray.avif"
 
 const SendEmail = () => {
   const form = useRef<HTMLFormElement>(null);
