@@ -78,7 +78,7 @@ const RegisteredCamps = () => {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchData = async () => {
       setLoading(true);
       try {
         const res = await axiosSecure.get(
@@ -92,7 +92,7 @@ const RegisteredCamps = () => {
       }
     };
 
-    fetchPosts();
+    fetchData();
   }, [axiosSecure, user?.email]);
 
   // handle Delete button

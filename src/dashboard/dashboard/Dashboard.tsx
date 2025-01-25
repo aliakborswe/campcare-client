@@ -1,4 +1,4 @@
-import { TrendingUp } from "lucide-react";
+import { Hospital, TrendingUp } from "lucide-react";
 import { LabelList, Pie, PieChart } from "recharts";
 import {
   Card,
@@ -22,7 +22,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
-import { HeartPulse, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { useEffect, useState } from "react";
 
 
@@ -92,12 +92,12 @@ const Dashboard = () => {
   return (
     <div className='px-4 py-6 flex flex-col md:flex-row gap-8'>
       {/* cards and charts */}
-      <div className='w-full md:w-2/3 text-black flex flex-col justify-between'>
+      <div className='w-full md:w-2/3 text-black flex flex-col justify-between gap-6'>
         <div className='flex gap-4 justify-between'>
           <div className='bg-white shadow-lg rounded-md w-full p-6'>
             <div className=' flex items-center gap-4 justify-between text-xl font-bold'>
               <h1>Total Camp</h1>
-              <HeartPulse className='text-red-500 mt-1' />
+              <Hospital className='text-red-500 mt-1' />
             </div>
             <h1 className='text-3xl font-bold text-yellow-500 pt-3'>
               {campsLength}
@@ -114,49 +114,46 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Chart */}
-          <Card className='flex flex-col shadow-lg'>
-            <CardHeader className='items-center pb-0'>
-              <CardTitle>Pie Chart - CampCare+</CardTitle>
-              <CardDescription>January - June 2025</CardDescription>
-            </CardHeader>
-            <CardContent className='flex-1 pb-0'>
-              <ChartContainer
-                config={chartConfig}
-                className='mx-auto aspect-square max-h-[250px] [&_.recharts-text]:fill-background'
-              >
-                <PieChart>
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent nameKey='visitors' hideLabel />
+        <Card className='flex flex-col shadow-lg'>
+          <CardHeader className='items-center pb-0'>
+            <CardTitle>Pie Chart - CampCare+</CardTitle>
+            <CardDescription>January - June 2025</CardDescription>
+          </CardHeader>
+          <CardContent className='flex-1 pb-0'>
+            <ChartContainer
+              config={chartConfig}
+              className='mx-auto aspect-square max-h-[250px] [&_.recharts-text]:fill-background'
+            >
+              <PieChart>
+                <ChartTooltip
+                  content={<ChartTooltipContent nameKey='visitors' hideLabel />}
+                />
+                <Pie data={chartData} dataKey='visitors'>
+                  <LabelList
+                    dataKey='browser'
+                    className='fill-background'
+                    stroke='none'
+                    fontSize={12}
+                    formatter={(value: keyof typeof chartConfig) =>
+                      chartConfig[value]?.label
                     }
                   />
-                  <Pie data={chartData} dataKey='visitors'>
-                    <LabelList
-                      dataKey='browser'
-                      className='fill-background'
-                      stroke='none'
-                      fontSize={12}
-                      formatter={(value: keyof typeof chartConfig) =>
-                        chartConfig[value]?.label
-                      }
-                    />
-                  </Pie>
-                </PieChart>
-              </ChartContainer>
-            </CardContent>
-            <CardFooter className='flex-col gap-2 text-sm'>
-              <div className='flex items-center gap-2 font-medium leading-none'>
-                Trending up by 5.2% this month{" "}
-                <TrendingUp className='h-4 w-4' />
-              </div>
-              <div className='leading-none text-muted-foreground'>
-                Showing total Participants for the last 6 months
-              </div>
-            </CardFooter>
-          </Card>
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className='flex-col gap-2 text-sm'>
+            <div className='flex items-center gap-2 font-medium leading-none'>
+              Trending up by 5.2% this month <TrendingUp className='h-4 w-4' />
+            </div>
+            <div className='leading-none text-muted-foreground'>
+              Showing total Participants and Camps for the last 6 months
+            </div>
+          </CardFooter>
+        </Card>
       </div>
       {/* Feedback and Rating */}
-      <div className='w-full md:w-1/3 '>
+      <div className='w-full md:w-1/3 flex justify-center'>
         {/* <h1 className='text-xl font-bold'>Feedback</h1> */}
         <Carousel
           opts={{
