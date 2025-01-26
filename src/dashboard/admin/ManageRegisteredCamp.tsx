@@ -96,6 +96,7 @@ const ManageRegisteredCamp = () => {
     axiosSecure
       .patch(`/participants/${id}`, { confirmationStatus: "Confirmed" })
       .then(() => {
+        refetch();
         toast.success("Confirmation status updated successfully");
       })
       .catch((err: any) => toast.error(err.message));
