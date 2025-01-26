@@ -1,5 +1,5 @@
 # CampCare+ : Medical Camp Management System (MCMS)
-[Live Link for CampCare+](https://CampCare.netlify.app/)
+[Live Link for CampCare+](https://campcarepluse.netlify.app/)
 
 ## Project Overview
 The Medical Camp Management System (MCMS) is a robust platform designed to streamline the management and coordination of medical camps. Built with the MERN stack, the platform offers seamless functionality for both organizers and participants.
