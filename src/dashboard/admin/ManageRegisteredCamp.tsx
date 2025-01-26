@@ -254,7 +254,7 @@ const ManageRegisteredCamp = () => {
       <Helmet>
         <title>Manage Registered Camp | Dashboard</title>
       </Helmet>
-      <div className='flex items-center py-4'>
+      <div className='flex gap-4 items-center py-4'>
         <Input
           placeholder='Search by CampName...'
           value={

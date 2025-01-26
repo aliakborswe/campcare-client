@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, Pencil, Trash2, ArrowUpDown } from "lucide-react"; // Import ArrowUpDown
+import { ChevronDown, Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -215,7 +215,7 @@ const ManageCamp = () => {
       <Helmet>
         <title>Manage Camp | Dashboard</title>
       </Helmet>
-      <div className='flex items-center py-4'>
+      <div className='flex gap-4 items-center py-4'>
         <Input
           placeholder='Search by CampName...'
           value={
@@ -224,7 +224,7 @@ const ManageCamp = () => {
           onChange={(event) =>
             table.getColumn("campName")?.setFilterValue(event.target.value)
           }
-          className='max-w-sm'
+          className='max-w-xs'
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -155,7 +155,7 @@ const PaymentHistory = () => {
       <Helmet>
         <title>Payment History | Dashboard</title>
       </Helmet>
-      <div className='flex items-center py-4'>
+      <div className='flex gap-4 items-center py-4'>
         <Input
           placeholder='Search by CampName...'
           value={
