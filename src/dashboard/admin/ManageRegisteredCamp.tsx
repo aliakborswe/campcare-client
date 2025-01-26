@@ -11,7 +11,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -51,12 +50,18 @@ const ManageRegisteredCamp = () => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  // const [data, setData] = useState([])
+  // const [loading, setLoading] = useState(false)
 
   const axiosSecure = useAxiosSecure();
-  const { data, refetch, isLoading } = useQuery<Camp[]>({
+  const {
+    data = [],
+    refetch,
+    isLoading,
+  } = useQuery<Camp[]>({
     queryKey: ["camps"],
     queryFn: async () => {
-      const res = await axiosSecure("/participants");
+      const res = await axiosSecure.get("/participants");
       const data = res.data.map((d: any) => ({
         ...d,
         campName: d.campId.campName,
@@ -66,12 +71,31 @@ const ManageRegisteredCamp = () => {
     },
   });
 
+  // useEffect(() => {
+  //     const fetchPosts = async () => {
+  //       setLoading(true);
+  //       try {
+  //         const res = await axiosSecure.get("/participants");
+  //         setData(res.data.map((d: any) => ({
+  //       ...d,
+  //       campName: d.campId.campName,
+  //       campFees: d.campId.campFees,
+  //     })));
+  //       } catch (err: any) {
+  //         toast.error(err.message);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
+
+  //     fetchPosts();
+  //   }, [axiosSecure]);
+
   // handle update ConfirmationStatus by id
   const updateConfirmStatus = async (id: string) => {
     axiosSecure
       .patch(`/participants/${id}`, { confirmationStatus: "Confirmed" })
       .then(() => {
-        refetch();
         toast.success("Confirmation status updated successfully");
       })
       .catch((err: any) => toast.error(err.message));
@@ -182,7 +206,7 @@ const ManageRegisteredCamp = () => {
       cell: ({ row }) => {
         const id = row.original._id; // Get the id of the current row
         return (
-          <TableCell>
+          <div>
             {row.original.paymentStatus !== "Paid" ? (
               <Button onClick={() => handleDelete(id)} variant={"destructive"}>
                 Cancel
@@ -190,14 +214,14 @@ const ManageRegisteredCamp = () => {
             ) : (
               <div className='cursor-not-allowed'>N/A</div>
             )}
-          </TableCell>
+          </div>
         );
       },
     },
   ];
 
   const table = useReactTable({
-    data: data ?? [],
+    data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -214,10 +238,6 @@ const ManageRegisteredCamp = () => {
       rowSelection,
     },
   });
-
-  if (!data) {
-    return <Spinner />;
-  }
 
   if (isLoading) {
     return <Spinner />;
