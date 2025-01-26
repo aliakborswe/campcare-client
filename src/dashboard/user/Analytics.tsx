@@ -21,6 +21,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Helmet } from "react-helmet-async";
 
 interface History {
   id: string;
@@ -88,6 +89,9 @@ const Analytics = () => {
 
   return (
     <div className='p-6 space-y-6'>
+      <Helmet>
+        <title>Analytics | Dashboard</title>
+      </Helmet>
       <div className='flex flex-col sm:flex-row gap-4 justify-between'>
         {/* Card: Received Cares */}
         <div className='bg-white shadow-lg rounded-md w-full p-6'>

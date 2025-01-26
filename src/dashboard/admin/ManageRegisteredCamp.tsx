@@ -35,6 +35,7 @@ import Spinner from "@/components/common/Spinner";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 type Camp = {
   _id: string;
@@ -229,6 +230,9 @@ const ManageRegisteredCamp = () => {
   }
   return (
     <div className='w-full p-6'>
+      <Helmet>
+        <title>Manage Registered Camp | Dashboard</title>
+      </Helmet>
       <div className='flex items-center py-4'>
         <Input
           placeholder='Search by CampName...'

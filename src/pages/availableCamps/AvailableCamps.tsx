@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/common/Spinner";
 import CampCard from "@/components/common/CampCard";
+import { Helmet } from "react-helmet-async";
 
 const AvailableCamps = () => {
   const [camps, setCamps] = useState<CampInterface[]>([]);
@@ -37,9 +38,7 @@ const AvailableCamps = () => {
       (camp) =>
         camp.campName.toLowerCase().includes(search.toLowerCase()) ||
         camp.location.toLowerCase().includes(search.toLowerCase()) ||
-        camp.healthcareProfessional
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        camp.healthcareProfessional.toLowerCase().includes(search.toLowerCase())
     );
 
     if (sortCriteria === "most-registered") {
@@ -71,6 +70,9 @@ const AvailableCamps = () => {
 
   return (
     <Wrapper>
+      <Helmet>
+        <title>Camps | CampCare+</title>
+      </Helmet>
       <div className='flex justify-between items-center mb-4'>
         <input
           type='text'
@@ -89,7 +91,7 @@ const AvailableCamps = () => {
           <option value='camp-fees'>Camp Fees(L-H)</option>
           <option value='alphabetical'>Alphabetical Order(A-Z)</option>
         </select>
-        <div className="hidden lg:block">
+        <div className='hidden lg:block'>
           <Button onClick={handleLayoutToggle}>
             {layout === "three-column"
               ? "Two Column Layout"
@@ -102,9 +104,9 @@ const AvailableCamps = () => {
           layout === "three-column" ? "grid-cols-3" : "grid-cols-2"
         }`}
       >
-        {
-          filteredCamps.map((camp) => <CampCard key={camp._id} camp={camp} />)
-        }
+        {filteredCamps.map((camp) => (
+          <CampCard key={camp._id} camp={camp} />
+        ))}
       </div>
     </Wrapper>
   );

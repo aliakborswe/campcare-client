@@ -3,6 +3,7 @@ import useAuth from "@/hooks/useAuth";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { UserType } from "@/utils/userType";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const AdminProfile = () => {
   const { user } = useAuth();
@@ -15,7 +16,14 @@ const AdminProfile = () => {
     },
   });
 
-  return <div>{data && <Profile data={data} refetch={refetch} />}</div>;
+  return (
+    <div>
+      <Helmet>
+        <title>Admin Profile | Dashboard</title>
+      </Helmet>
+      {data && <Profile data={data} refetch={refetch} />}
+    </div>
+  );
 };
 
 export default AdminProfile;

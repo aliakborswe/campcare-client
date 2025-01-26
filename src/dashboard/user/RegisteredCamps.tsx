@@ -53,6 +53,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Helmet } from "react-helmet-async";
 
 const feedbackSchema = z.object({
   feedback: z.string().min(1, { message: "Feedback is required" }),
@@ -121,13 +122,12 @@ const RegisteredCamps = () => {
           `/registered-camps?email=${user?.email}`
         );
         // setData(res.data);
-        const data = res.data.map((d:any)=> ({
+        const data = res.data.map((d: any) => ({
           ...d,
-          campName:d.campId.campName,
-          campFees:d.campId.campFees,
-
-        }))
-        setData(data)
+          campName: d.campId.campName,
+          campFees: d.campId.campFees,
+        }));
+        setData(data);
       } catch (err: any) {
         toast.error(err.message);
       } finally {
@@ -364,16 +364,17 @@ const RegisteredCamps = () => {
 
   return (
     <div className='w-full p-6'>
+      <Helmet>
+        <title>Registered Camps | Dashboard</title>
+      </Helmet>
       <div className='flex items-center py-4'>
         <Input
           placeholder='Search by CampName...'
           value={
-            (table.getColumn("campName")?.getFilterValue() as string) ??""
+            (table.getColumn("campName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table
-              .getColumn("campName")
-              ?.setFilterValue(event.target.value)
+            table.getColumn("campName")?.setFilterValue(event.target.value)
           }
           className='max-w-sm'
         />

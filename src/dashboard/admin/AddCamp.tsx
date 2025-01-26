@@ -83,7 +83,7 @@ const AddCamp = () => {
   return (
     <div>
       <Helmet>
-        <title>Add Camp</title>
+        <title>Add Camp | Dashboard</title>
       </Helmet>
       <Form {...form}>
         <form

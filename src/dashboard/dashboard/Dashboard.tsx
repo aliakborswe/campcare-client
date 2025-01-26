@@ -24,7 +24,7 @@ import {
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { Users } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import { Helmet } from "react-helmet-async";
 
 const chartConfig = {
   visitors: {
@@ -91,6 +91,9 @@ const Dashboard = () => {
   }, [axiosSecure]);
   return (
     <div className='px-4 py-6 flex flex-col md:flex-row gap-8'>
+      <Helmet>
+        <title>Dashboard | CampCare+</title>
+      </Helmet>
       {/* cards and charts */}
       <div className='w-full md:w-2/3 text-black flex flex-col gap-8'>
         <div className='flex gap-4 justify-between'>

@@ -34,6 +34,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import Spinner from "@/components/common/Spinner";
 import { toast } from "react-toastify";
 import useAuth from "@/hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 type History = {
   id: string;
@@ -151,6 +152,9 @@ const PaymentHistory = () => {
   }
   return (
     <div className='w-full p-6'>
+      <Helmet>
+        <title>Payment History | Dashboard</title>
+      </Helmet>
       <div className='flex items-center py-4'>
         <Input
           placeholder='Search by CampName...'

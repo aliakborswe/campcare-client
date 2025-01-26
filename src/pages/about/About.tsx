@@ -4,10 +4,14 @@ import { Link } from "react-router";
 import alexImg from "@/assets/images/alex.jpg";
 import emilyImg from "@/assets/images/emily.jpg";
 import ryanImg from "@/assets/images/ryan.jpg";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   return (
     <section>
+      <Helmet>
+        <title>About | CampCare+</title>
+      </Helmet>
       {/* Hero Section */}
       <div className='text-center text-white space-y-4 bg-contact-image bg-no-repeat bg-cover bg-black/50 bg-blend-overlay py-16'>
         <div className='container mx-auto px-2.5 space-y-4'>

@@ -92,7 +92,7 @@ const UpdateCamp = () => {
   return (
     <div>
       <Helmet>
-        <title>Add Camp</title>
+        <title>Update Camp | Dashboard</title>
       </Helmet>
       <Form {...form}>
         <form

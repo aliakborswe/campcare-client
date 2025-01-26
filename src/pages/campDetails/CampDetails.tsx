@@ -24,6 +24,7 @@ import { CampInterface } from "@/utils/campInterface";
 import { registeredCampSchema } from "@/utils/registeredCampSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -118,6 +119,9 @@ const CampDetails = () => {
   }
   return (
     <Wrapper>
+      <Helmet>
+        <title>Camp Details | CampCare+</title>
+      </Helmet>
       <div className='border w-full flex flex-col lg:flex-row items-center gap-6 p-4 rounded shadow-lg'>
         <div className='w-full h-full lg:w-1/3'>
           <img

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { useParams } from "react-router";
 import useAuth from "@/hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Payment_PK);
 
@@ -132,12 +133,17 @@ const CheckoutForm = () => {
 
 const Payment = () => {
   return (
-    <Elements stripe={stripePromise}>
-      <div className='max-w-xl mx-auto mt-10 px-4'>
-        <h2 className='text-2xl font-bold mb-4'>Make a Payment</h2>
-        <CheckoutForm />
-      </div>
-    </Elements>
+    <div>
+      <Helmet>
+        <title>Payment | Dashboard</title>
+      </Helmet>
+      <Elements stripe={stripePromise}>
+        <div className='max-w-xl mx-auto mt-10 px-4'>
+          <h2 className='text-2xl font-bold mb-4'>Make a Payment</h2>
+          <CheckoutForm />
+        </div>
+      </Elements>
+    </div>
   );
 };
 
