@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const registeredCampSchema = z.object({
     campName: z.string(),
-    campFees: z.string(),
+    campFees: z.number(),
     location: z.string(),
     healthcareProfessional: z.string(),
     participantName: z.string().min(1, "Participant name is required"),

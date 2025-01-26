@@ -62,7 +62,7 @@ const CampDetails = () => {
     resolver: zodResolver(registeredCampSchema),
     defaultValues: {
       campName: "",
-      campFees: "",
+      campFees: 0,
       location: "",
       healthcareProfessional: "",
       participantName: "",
@@ -204,7 +204,7 @@ const CampDetails = () => {
                           <FormLabel>Camp Fees</FormLabel>
                           <FormControl>
                             <Input
-                              type='string'
+                              type='number'
                               min={0}
                               placeholder='Enter Camp Fees'
                               {...field}
