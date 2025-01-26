@@ -136,14 +136,14 @@ const ManageRegisteredCamp = () => {
       accessorKey: "campName",
       header: "Camp Name",
       cell: ({ row }) => {
-        return <div>{row.original.campId?.campName}</div>;
+        return <div>{row.original.campName}</div>;
       },
     },
     {
       accessorKey: "campFees",
       header: "Camp Fees",
       cell: ({ row }) => {
-        return <div>{row.original.campId?.campFees}$</div>;
+        return <div>{row.original.campFees}$</div>;
       },
     },
     {
