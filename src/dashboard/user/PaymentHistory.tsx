@@ -1,4 +1,26 @@
-import Spinner from "@/components/common/Spinner";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, Pencil, Trash2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -7,21 +29,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useAuth from "@/hooks/useAuth";
-import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
+import useAxiosSecure from "@/hooks/useAxiosSecure";
+import Spinner from "@/components/common/Spinner";
 import { toast } from "react-toastify";
+import useAuth from "@/hooks/useAuth";
 
-interface History {
+type History = {
   id: string;
   campName: string;
   campFees: string;
   paymentStatus: string;
   confirmationStatus: string;
-}
+};
 
 const PaymentHistory = () => {
-  const [paymentHistory, setPaymentHistory] = useState<History[]>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+
+  //
+  const [data, setData] = useState<History[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -33,7 +62,7 @@ const PaymentHistory = () => {
         const res = await axiosSecure.get(
           `/payment-history?email=${user?.email}`
         );
-        setPaymentHistory(res.data);
+        setData(res.data);
       } catch (err: any) {
         toast.error(err.message);
       } finally {
@@ -44,49 +73,195 @@ const PaymentHistory = () => {
     fetchPosts();
   }, [axiosSecure, user?.email]);
 
+  const columns: ColumnDef<History>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label='Select all'
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label='Select row'
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "campName",
+      header: "Camp Name",
+      cell: ({ row }) => <div>{row.getValue("campName")}</div>,
+    },
+    {
+      accessorKey: "campFees",
+      header: "Camp Fees",
+      cell: ({ row }) => {
+        return <div>{row.original.campFees}$</div>;
+      },
+    },
+    {
+      accessorKey: "paymentStatus",
+      header: "Payment Status",
+      cell: ({ row }) => <div>{row.getValue("paymentStatus")}</div>,
+    },
+    {
+      accessorKey: "confirmationStatus",
+      header: "Confirmation Status",
+      cell: ({ row }) => <div>{row.getValue("confirmationStatus")}</div>,
+    },
+  ];
+
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+  });
+
   if (loading) {
     return <Spinner />;
   }
-  if (paymentHistory.length === 0) {
+  if (data.length === 0) {
     return (
       <div className='flex justify-center items-center'>
         <h1 className='text-3xl font-bold text-red-500'>No data found</h1>
       </div>
     );
   }
-
   return (
-    <div className='p-6'>
-      <h1 className='text-xl font-bold text-center border-b py-4'>
-        Payment History
-      </h1>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>No</TableHead>
-            <TableHead>Camp Name</TableHead>
-            <TableHead>Camp Fees</TableHead>
-            <TableHead>Payment Status</TableHead>
-            <TableHead>Confirmation Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {paymentHistory.map(
-            (
-              { id, campName, campFees, paymentStatus, confirmationStatus },
-              index
-            ) => (
-              <TableRow key={id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{campName}</TableCell>
-                <TableCell>{campFees}$</TableCell>
-                <TableCell>{paymentStatus}$</TableCell>
-                <TableCell>{confirmationStatus}</TableCell>
+    <div className='w-full p-6'>
+      <div className='flex items-center py-4'>
+        <Input
+          placeholder='Search by CampName...'
+          value={
+            (table.getColumn("campName")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) =>
+            table.getColumn("campName")?.setFilterValue(event.target.value)
+          }
+          className='max-w-sm'
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='ml-auto'>
+              Columns <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className='rounded-md border'>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
-            )
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className='flex items-center justify-end space-x-2 py-4'>
+        <div className='flex-1 text-sm text-muted-foreground'>
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className='space-x-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

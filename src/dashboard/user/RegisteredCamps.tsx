@@ -1,5 +1,26 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { ChevronDown } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -8,15 +29,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import Spinner from "@/components/common/Spinner";
-import useAuth from "@/hooks/useAuth";
+import { useEffect, useState } from "react";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
-import { Button } from "@/components/ui/button";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import Spinner from "@/components/common/Spinner";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { Link } from "react-router";
+import useAuth from "@/hooks/useAuth";
+import { CampInterface } from "@/utils/campInterface";
 import {
   Popover,
   PopoverContent,
@@ -31,7 +51,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const feedbackSchema = z.object({
   feedback: z.string().min(1, { message: "Feedback is required" }),
@@ -41,13 +63,26 @@ const feedbackSchema = z.object({
     .max(5, "Rating must be between 1 and 5"),
 });
 
+type Camp = {
+  _id: string;
+  campId: CampInterface;
+  participantName: string;
+  paymentStatus: string;
+  confirmationStatus: string;
+};
+
 const RegisteredCamps = () => {
-  const [registeredCamps, setRegisteredCamps] = useState<any[]>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+
+  //
+  const [data, setData] = useState<Camp[]>([]);
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  console.log(user?.photoURL);
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
   const form = useForm<z.infer<typeof feedbackSchema>>({
     resolver: zodResolver(feedbackSchema),
@@ -77,14 +112,15 @@ const RegisteredCamps = () => {
     }
   };
 
+  // load data form server
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchPosts = async () => {
       setLoading(true);
       try {
         const res = await axiosSecure.get(
           `/registered-camps?email=${user?.email}`
         );
-        setRegisteredCamps(res.data);
+        setData(res.data);
       } catch (err: any) {
         toast.error(err.message);
       } finally {
@@ -92,8 +128,193 @@ const RegisteredCamps = () => {
       }
     };
 
-    fetchData();
+    fetchPosts();
   }, [axiosSecure, user?.email]);
+
+  // Colum Def
+  const columns: ColumnDef<Camp>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label='Select all'
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label='Select row'
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "campName",
+      header: "Camp Name",
+      cell: ({ row }) => <div>{row.original.campId?.campName}</div>,
+    },
+    {
+      accessorKey: "campFees",
+      header: "campFees",
+      cell: ({ row }) => <div>{row.original.campId?.campFees}$</div>,
+    },
+    {
+      accessorKey: "participantName",
+      header: "Participant Name",
+      cell: ({ row }) => <div>{row.getValue("participantName")}</div>,
+    },
+    {
+      accessorKey: "paymentStatus",
+      header: "Payment Status",
+      cell: ({ row }) => {
+        const id = row.original._id;
+        return (
+          <div>
+            {row.original.paymentStatus === "Paid" ? (
+              <div className='bg-green-500 text-black w-12 text-center py-1 rounded-sm cursor-not-allowed'>
+                Paid
+              </div>
+            ) : (
+              <Link
+                to={`/dashboard/payment/${id}`}
+                className='bg-primary text-white dark:text-black text-center py-1 px-3.5 rounded-sm cursor-pointer'
+              >
+                Pay
+              </Link>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "confirmationStatus",
+      header: "Confirmation Status",
+      cell: ({ row }) => <div>{row.getValue("confirmationStatus")}</div>,
+    },
+    {
+      accessorKey: "cancel",
+      header: "Cancel Button",
+      cell: ({ row }) => {
+        const id = row.original?._id;
+        return (
+          <div>
+            {row.original?.paymentStatus !== "Paid" ? (
+              <Button onClick={() => handleDelete(id)} variant={"destructive"}>
+                Cancel
+              </Button>
+            ) : (
+              <div className='cursor-not-allowed'>N/A</div>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "feedback",
+      header: "Feedback Button",
+      cell: ({ row }) => {
+        return (
+          <div>
+            {row.original.paymentStatus === "Paid" ? (
+              <Popover>
+                <PopoverTrigger>
+                  <div className='bg-primary text-white dark:text-black py-2 px-4 rounded-md font-semibold'>
+                    Feedback
+                  </div>
+                </PopoverTrigger>
+                <PopoverContent className='p-0 mr-12'>
+                  <Form {...form}>
+                    <form
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      className='space-y-4 bg-white p-6 rounded-lg shadow-lg'
+                    >
+                      {/* Feedback Textarea */}
+                      <FormField
+                        control={form.control}
+                        name='feedback'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Feedback</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder='Write your feedback here...'
+                                className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Rating Component */}
+                      <FormField
+                        control={form.control}
+                        name='rating'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Rating</FormLabel>
+                            <FormControl>
+                              <Input
+                                type='number'
+                                min={1}
+                                max={5}
+                                {...field}
+                                onChange={(e) =>
+                                  field.onChange(Number(e.target.value))
+                                }
+                                className='mt-1 p-1 block w-full border rounded-md shadow-sm'
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button
+                        type='submit'
+                        disabled={isSubmitting}
+                        className='w-full'
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                      </Button>
+                    </form>
+                  </Form>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <div className='cursor-not-allowed'>N/A</div>
+            )}
+          </div>
+        );
+      },
+    },
+  ];
+
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+  });
 
   // handle Delete button
   const handleDelete = async (id: string) => {
@@ -109,9 +330,7 @@ const RegisteredCamps = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axiosSecure.delete(`/participants/${id}`).then(() => {
-            setRegisteredCamps(
-              registeredCamps.filter((camp) => camp._id !== id)
-            );
+            setData(data.filter((camp) => camp._id !== id));
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -128,7 +347,7 @@ const RegisteredCamps = () => {
   if (loading) {
     return <Spinner />;
   }
-  if (registeredCamps.length === 0) {
+  if (data.length === 0) {
     return (
       <div className='flex justify-center items-center'>
         <h1 className='text-3xl font-bold text-red-500'>No data found</h1>
@@ -137,140 +356,118 @@ const RegisteredCamps = () => {
   }
 
   return (
-    <div className='p-6'>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>No</TableHead>
-            <TableHead>Camp Name</TableHead>
-            <TableHead>Camp Fees</TableHead>
-            <TableHead>Participant Name</TableHead>
-            <TableHead>Payment Status</TableHead>
-            <TableHead>Confirmation Status</TableHead>
-            <TableHead>Cancel Button</TableHead>
-            <TableHead>Feedback Button</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {registeredCamps.map(
-            (
-              {
-                _id,
-                campId,
-                participantName,
-                paymentStatus,
-                confirmationStatus,
-              },
-              index
-            ) => (
-              <TableRow key={_id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{campId?.campName}</TableCell>
-                <TableCell>{campId?.campFees}$</TableCell>
-                <TableCell>{participantName}</TableCell>
-                <TableCell>
-                  {paymentStatus === "Paid" ? (
-                    <div className='bg-green-500 text-black w-12 text-center py-1 rounded-sm cursor-not-allowed'>
-                      Paid
-                    </div>
-                  ) : (
-                    <Link
-                      to={`/dashboard/payment/${_id}`}
-                      className='bg-primary text-white dark:text-black text-center py-1 px-3.5 rounded-sm cursor-pointer'
-                    >
-                      Pay
-                    </Link>
-                  )}
-                </TableCell>
-                <TableCell>{confirmationStatus}</TableCell>
-                <TableCell>
-                  {paymentStatus !== "Paid" ? (
-                    <Button
-                      onClick={() => handleDelete(_id)}
-                      variant={"destructive"}
-                    >
-                      Cancel
-                    </Button>
-                  ) : (
-                    <div className='cursor-not-allowed'>N/A</div>
-                  )}
-                </TableCell>
-                <TableCell>
-                  {paymentStatus === "Paid" ? (
-                    <Popover>
-                      <PopoverTrigger>
-                        <div className='bg-primary text-white dark:text-black py-2 px-4 rounded-md font-semibold'>
-                          Feedback
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent className='p-0 mr-12'>
-                        <Form {...form}>
-                          <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className='space-y-4 bg-white p-6 rounded-lg shadow-lg'
-                          >
-                            {/* Feedback Textarea */}
-                            <FormField
-                              control={form.control}
-                              name='feedback'
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Feedback</FormLabel>
-                                  <FormControl>
-                                    <Textarea
-                                      {...field}
-                                      placeholder='Write your feedback here...'
-                                      className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm'
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            {/* Rating Component */}
-                            <FormField
-                              control={form.control}
-                              name='rating'
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Rating</FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      type='number'
-                                      min={1}
-                                      max={5}
-                                      {...field}
-                                      onChange={(e) =>
-                                        field.onChange(Number(e.target.value))
-                                      }
-                                      className='mt-1 p-1 block w-full border rounded-md shadow-sm'
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <Button
-                              type='submit'
-                              disabled={isSubmitting}
-                              className='w-full'
-                            >
-                              {isSubmitting ? "Submitting..." : "Submit"}
-                            </Button>
-                          </form>
-                        </Form>
-                      </PopoverContent>
-                    </Popover>
-                  ) : (
-                    <div className='cursor-not-allowed'>N/A</div>
-                  )}
+    <div className='w-full p-6'>
+      <div className='flex items-center py-4'>
+        <Input
+          placeholder='Search by CampName...'
+          value={
+            (table.getColumn("campName")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) =>
+            table.getColumn("campName")?.setFilterValue(event.target.value)
+          }
+          className='max-w-sm'
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='ml-auto'>
+              Columns <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className='rounded-md border'>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
+                  No results.
                 </TableCell>
               </TableRow>
-            )
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className='flex items-center justify-end space-x-2 py-4'>
+        <div className='flex-1 text-sm text-muted-foreground'>
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className='space-x-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
