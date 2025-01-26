@@ -36,7 +36,6 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
 import useAuth from "@/hooks/useAuth";
-import { CampInterface } from "@/utils/campInterface";
 import {
   Popover,
   PopoverContent,
@@ -65,7 +64,8 @@ const feedbackSchema = z.object({
 
 type Camp = {
   _id: string;
-  campId: CampInterface;
+  campName: string;
+  campFees: string;
   participantName: string;
   paymentStatus: string;
   confirmationStatus: string;
@@ -120,7 +120,14 @@ const RegisteredCamps = () => {
         const res = await axiosSecure.get(
           `/registered-camps?email=${user?.email}`
         );
-        setData(res.data);
+        // setData(res.data);
+        const data = res.data.map((d:any)=> ({
+          ...d,
+          campName:d.campId.campName,
+          campFees:d.campId.campFees,
+
+        }))
+        setData(data)
       } catch (err: any) {
         toast.error(err.message);
       } finally {
@@ -158,12 +165,12 @@ const RegisteredCamps = () => {
     {
       accessorKey: "campName",
       header: "Camp Name",
-      cell: ({ row }) => <div>{row.original.campId?.campName}</div>,
+      cell: ({ row }) => <div>{row.original.campName}</div>,
     },
     {
       accessorKey: "campFees",
       header: "campFees",
-      cell: ({ row }) => <div>{row.original.campId?.campFees}$</div>,
+      cell: ({ row }) => <div>{row.original.campFees}$</div>,
     },
     {
       accessorKey: "participantName",
@@ -361,10 +368,12 @@ const RegisteredCamps = () => {
         <Input
           placeholder='Search by CampName...'
           value={
-            (table.getColumn("campName")?.getFilterValue() as string) ?? ""
+            (table.getColumn("campName")?.getFilterValue() as string) ??""
           }
           onChange={(event) =>
-            table.getColumn("campName")?.setFilterValue(event.target.value)
+            table
+              .getColumn("campName")
+              ?.setFilterValue(event.target.value)
           }
           className='max-w-sm'
         />

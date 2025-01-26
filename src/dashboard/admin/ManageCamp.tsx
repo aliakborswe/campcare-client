@@ -1,4 +1,3 @@
-
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,7 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, Pencil, Trash2 } from "lucide-react";
+import { ChevronDown, Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -37,11 +36,6 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 
-
-
-
-
-
 type Camp = {
   _id: string;
   campName: string;
@@ -51,39 +45,34 @@ type Camp = {
   healthcareProfessional: string;
 };
 
-
-const ManageCamp =()=> {
+const ManageCamp = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  // 
-  const [data, setData] = useState<Camp[]>([])
-  const [loading, setLoading] = useState(false)
-  const axiosSecure = useAxiosSecure()
-  const navigate = useNavigate()
+  //
+  const [data, setData] = useState<Camp[]>([]);
+  const [loading, setLoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const res = await axiosSecure.get("/camps");
+        setData(res.data);
+      } catch (err: any) {
+        toast.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    useEffect(() => {
-      const fetchPosts = async () => {
-        setLoading(true);
-        try {
-          const res = await axiosSecure.get("/camps");
-          setData(res.data);
-        } catch (err: any) {
-          toast.error(err.message);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchPosts();
-    }, [axiosSecure]);
- 
+    fetchPosts();
+  }, [axiosSecure]);
+
   const columns: ColumnDef<Camp>[] = [
     {
       id: "select",
@@ -172,50 +161,50 @@ const ManageCamp =()=> {
     },
   });
 
-   // handle Edit button
-   const handleEdit = (id: string) => {
-     Swal.fire({
-       title: "Are you sure?",
-       text: "You won't be able to Update this!",
-       icon: "warning",
-       showCancelButton: true,
-       confirmButtonColor: "#3085d6",
-       cancelButtonColor: "#d33",
-       confirmButtonText: "Yes, Update it!",
-     }).then((result) => {
-       if (result.isConfirmed) {
-         navigate(`/dashboard/update-camp/${id}`);
-       }
-     });
-   };
- 
-   // handle Delete button
-   const handleDelete = async (id: string) => {
-     try {
-       Swal.fire({
-         title: "Are you sure?",
-         text: "You won't be able to revert this!",
-         icon: "warning",
-         showCancelButton: true,
-         confirmButtonColor: "#3085d6",
-         cancelButtonColor: "#d33",
-         confirmButtonText: "Yes, delete it!",
-       }).then((result) => {
-         if (result.isConfirmed) {
-           axiosSecure.delete(`/camps/${id}`).then(() => {
-             setData(data.filter((camp) => camp._id !== id));
-             Swal.fire({
-               title: "Deleted!",
-               text: "Your file has been deleted.",
-               icon: "success",
-             });
-           });
-         }
-       });
-     } catch (err: any) {
-       toast.error(err.message);
-     }
-   };
+  // handle Edit button
+  const handleEdit = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to Update this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Update it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate(`/dashboard/update-camp/${id}`);
+      }
+    });
+  };
+
+  // handle Delete button
+  const handleDelete = async (id: string) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure.delete(`/camps/${id}`).then(() => {
+            setData(data.filter((camp) => camp._id !== id));
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          });
+        }
+      });
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
 
   if (loading) {
     return <Spinner />;
@@ -225,7 +214,9 @@ const ManageCamp =()=> {
       <div className='flex items-center py-4'>
         <Input
           placeholder='Search by CampName...'
-          value={(table.getColumn("campName")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("campName")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("campName")?.setFilterValue(event.target.value)
           }
@@ -245,7 +236,6 @@ const ManageCamp =()=> {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                   
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
@@ -334,6 +324,6 @@ const ManageCamp =()=> {
       </div>
     </div>
   );
-}
+};
 
 export default ManageCamp;

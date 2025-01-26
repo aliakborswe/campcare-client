@@ -53,7 +53,6 @@ const Login = () => {
   });
   // Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // TODO: check email and pass exist in DB or not
     login(values.email, values.password)
       .then(() => {
         toast.success("Login Success!");

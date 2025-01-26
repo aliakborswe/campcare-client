@@ -32,7 +32,7 @@ const SendEmail = () => {
   return (
     <section className='bg-contact-image bg-no-repeat bg-cover bg-black/50 bg-blend-overlay '>
       <Wrapper>
-        <div className='bg-black/30 rounded-md px-4 pb-8 text-white '>
+        <div className='bg-black/60 rounded-md px-4 pb-8 text-white '>
           <h1 className='text-xl sm:text-2xl lg:text-3xl font-bold text-center py-8'>
             Join Us on the Journey
           </h1>

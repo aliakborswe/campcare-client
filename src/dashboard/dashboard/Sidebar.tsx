@@ -7,6 +7,8 @@ import { NavLink, useNavigate } from "react-router";
 import logo from "@/assets/svg/logo.svg"
 import useRole from "@/hooks/useRole";
 import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
+import useAuth from "@/hooks/useAuth";
 
 
 type Props = {
@@ -16,7 +18,7 @@ type Props = {
 };
 
 const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
-  // const {logOut } = useAuth();
+  const {logOut } = useAuth();
 
   const [role] = useRole();
 
@@ -25,14 +27,15 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
   const navigate = useNavigate();
   // handle logout button
     const handleLogout = async () => {
-      navigate("/");
-      // try {
-      //   await logOut();
-      //   navigate("/");
-      //   toast.success("Logout Success!");
-      // } catch (err: any) {
-      //   toast.error(err.message || "Logout Failed");
-      // }
+      try {
+        setTimeout(async()=>{
+
+          await logOut();
+        },100);
+        navigate("/");
+      } catch (err: any) {
+        toast.error(err.message || "Logout Failed");
+      }
     };
   return (
     <>
@@ -102,7 +105,7 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
         </div>
         <div className='h-[150px] space-y-4 px-3 pt-3'>
           <Button onClick={handleLogout} className='w-full'>
-            Home
+            Logout
           </Button>
         </div>
       </div>
