@@ -159,7 +159,8 @@ const ManageRegisteredCamp = () => {
         const id = row.original._id; // Get the id of the current row
         return (
           <div>
-            {row.original.paymentStatus !== "Paid" ? (
+            {row.original.paymentStatus === "Paid" &&
+            row.original.confirmationStatus === "Pending" ? (
               <Button
                 onClick={() => updateConfirmStatus(id)}
                 variant={"default"}
