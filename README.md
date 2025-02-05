@@ -101,3 +101,33 @@ A private route accessible to participants with the following features:
 - **Backend:** Node.js, Express.js, MongoDB, JSON Web Tokens (JWT).
 - **Authentication:** JWT and social login integration.
 - **Payment Integration:** Stripe API.
+
+##Project Setup and Run Process
+
+### Prerequisites
+Ensure you have the following installed before setting up the project:
+- Node.js (latest LTS version recommended)
+- MongoDB (local or cloud-based like MongoDB Atlas)
+- Git
+- A package manager (npm or yarn)
+
+
+1. **Navigate to the client directory**
+   ```sh
+   cd ../client
+   ```
+2. **Install dependencies**
+   ```sh
+   npm install
+   ```
+3. **Set up environment variables**
+   - Create a `.env` file in the `client` directory and add the following:
+   ```env
+   VITE_API_URL=http://localhost:5000
+   VITE_STRIPE_PUBLIC_KEY=your_stripe_public_key
+   ```
+4. **Run the frontend server**
+   ```sh
+   npm run dev
+   ```
+   The frontend will be running on `http://localhost:5173/`.
