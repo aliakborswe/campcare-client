@@ -102,8 +102,7 @@ A private route accessible to participants with the following features:
 - **Authentication:** JWT and social login integration.
 - **Payment Integration:** Stripe API.
 
-##Project Setup and Run Process
-
+## Project Setup and Run Process
 ### Prerequisites
 Ensure you have the following installed before setting up the project:
 - Node.js (latest LTS version recommended)
