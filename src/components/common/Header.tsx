@@ -19,10 +19,7 @@ const Header = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const clickOutSide = (event: MouseEvent) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node)
-      ) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setShowMenu(false);
       }
     };
@@ -76,81 +73,61 @@ const Header = () => {
               <p className={` font-bold text-xl hidden md:block`}>CampCare+</p>
             </Link>
           </div>
-          <div className='flex'>
-            <div
-              ref={menuRef}
-              className={`${
-                showMenu ? "block" : "hidden"
-              } lg:block absolute  lg:static top-[58px] left-2.5 p-4 rounded-xl  bg-white border lg:border-none shadow-md lg:shadow-none lg:bg-transparent`}
-            >
-              <div className='flex flex-col lg:flex-row gap-6 text-base font-medium text-foreground w-full'>
-                <ActiveLink to='/'>Home</ActiveLink>
-                <ActiveLink to='/camps'>Available Camps</ActiveLink>
-                <ActiveLink to='/about'>About</ActiveLink>
-              </div>
-            </div>
-
-            <div className='flex items-center  gap-6 text-base font-semibold [&_a]:flex [&_a]:gap-1 '>
-              <div>
-                <button
-                  onClick={() =>
-                    theme === "light" ? setTheme("dark") : setTheme("light")
-                  }
-                  className='flex justify-center items-center'
-                >
-                  {theme === "light" ? (
-                    <Sun className='rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
-                  ) : (
-                    <Moon className='rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
-                  )}
-                </button>
-              </div>
-              {user !== null ? (
-                <div className='relative '>
-                  <div className='relative'>
-                    <img
-                      onClick={() => setProfile(!profile)}
-                      src={
-                        user?.photoURL ||
-                        "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-                      }
-                      className='w-10 aspect-square rounded-full '
-                      alt='photo'
-                    />
-                    {profile && (
-                      <div
-                        ref={profileRef}
-                        className='absolute top-[50px] border-2 w-36 flex flex-col justify-center p-2 space-y-2 bg-white text-black right-0 rounded-xl shadow-md '
-                      >
-                        <p className='text-sm cursor-not-allowed'>
-                          {user?.displayName || "Name not found"}
-                        </p>
-                        <ActiveLink to='/dashboard'>Dashboard</ActiveLink>
-                        <Button
-                          onClick={handleLogout}
-                          variant={"destructive"}
-                          size={"sm"}
-                          className='flex items-center gap-1 '
-                        >
-                          <LogOut />
-                          Logout
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <ActiveLink to='/login'>
-                  <Button
-                    variant={"default"}
-                    className='flex items-center gap-1 hover:bg-primary'
-                  >
-                    <LogIn />
-                    Join US
-                  </Button>
-                </ActiveLink>
+          <div
+            ref={menuRef}
+            className={`${
+              showMenu ? "block" : "hidden"
+            } lg:block absolute  lg:static top-[58px] left-2.5 p-4 rounded-xl  bg-white border lg:border-none shadow-md lg:shadow-none lg:bg-transparent`}
+          >
+            <div className='flex flex-col lg:flex-row gap-6 text-base font-medium text-foreground w-full'>
+              <ActiveLink to='/'>Home</ActiveLink>
+              <ActiveLink to='/camps'>Available Camps</ActiveLink>
+              <ActiveLink to='/about'>About</ActiveLink>
+              {user && (
+                <>
+                  <ActiveLink to='/dashboard'>Dashboard</ActiveLink>
+                  <ActiveLink to='/gallery'>Gallery</ActiveLink>
+                </>
               )}
             </div>
+          </div>
+
+          <div className='flex items-center  gap-6 text-base font-semibold [&_a]:flex [&_a]:gap-1 '>
+            <div>
+              <button
+                onClick={() =>
+                  theme === "light" ? setTheme("dark") : setTheme("light")
+                }
+                className='flex justify-center items-center'
+              >
+                {theme === "light" ? (
+                  <Sun className='rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+                ) : (
+                  <Moon className='rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+                )}
+              </button>
+            </div>
+            {user !== null ? (
+              <Button
+                onClick={handleLogout}
+                variant={"destructive"}
+                size={"sm"}
+                className='flex items-center gap-1 '
+              >
+                <LogOut />
+                Logout
+              </Button>
+            ) : (
+              <ActiveLink to='/login'>
+                <Button
+                  variant={"default"}
+                  className='flex items-center gap-1 hover:bg-primary'
+                >
+                  <LogIn />
+                  Join US
+                </Button>
+              </ActiveLink>
+            )}
           </div>
         </nav>
       </div>
