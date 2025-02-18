@@ -15,24 +15,37 @@ const Header = () => {
   const { user, logOut } = useAuth();
 
   const toggleMenu = () => setShowMenu(!showMenu);
-
-  // hide manage my profile
-  const profileRef = useRef<HTMLDivElement>(null);
-useEffect(() => {
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      profileRef.current &&
-      !profileRef.current.contains(event.target as Node)
-    ) {
-      setProfile(false);
+  // hide mobile menu when click any where outside mobile menu
+  const menuRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const clickOutSide = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", clickOutSide);
+    return ()=>{
+      document.removeEventListener("mousedown", clickOutSide)
     }
-  };
+  }, []);
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, [profile]);
+  // hide profile when click any where outside profile modal
+  const profileRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target as Node)
+      ) {
+        setProfile(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [profile]);
   const navigate = useNavigate();
   // handle logout button
   const handleLogout = async () => {
@@ -62,14 +75,15 @@ useEffect(() => {
           </div>
           <div className='flex'>
             <div
+              ref={menuRef}
               className={`${
                 showMenu ? "block" : "hidden"
               } lg:block absolute  lg:static top-[58px] left-2.5 p-4 rounded-xl  bg-white border lg:border-none shadow-md lg:shadow-none lg:bg-transparent`}
             >
               <div className='flex flex-col lg:flex-row gap-6 text-base font-medium text-foreground w-full'>
-                  <ActiveLink to='/'>Home</ActiveLink>
-                  <ActiveLink to='/camps'>Available Camps</ActiveLink>
-                  <ActiveLink to='/about'>About</ActiveLink>
+                <ActiveLink to='/'>Home</ActiveLink>
+                <ActiveLink to='/camps'>Available Camps</ActiveLink>
+                <ActiveLink to='/about'>About</ActiveLink>
               </div>
             </div>
 
@@ -108,7 +122,7 @@ useEffect(() => {
                         <p className='text-sm cursor-not-allowed'>
                           {user?.displayName || "Name not found"}
                         </p>
-                          <ActiveLink to='/dashboard'>Dashboard</ActiveLink>
+                        <ActiveLink to='/dashboard'>Dashboard</ActiveLink>
                         <Button
                           onClick={handleLogout}
                           variant={"destructive"}
