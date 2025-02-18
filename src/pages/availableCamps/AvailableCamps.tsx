@@ -60,7 +60,7 @@ const AvailableCamps = () => {
     return <Spinner />;
   }
 
-  if (filteredCamps.length === 0) {
+  if (camps.length === 0) {
     return (
       <div className='flex justify-center items-center'>
         <h1 className='text-3xl font-bold text-red-500'>No data found</h1>
@@ -73,18 +73,18 @@ const AvailableCamps = () => {
       <Helmet>
         <title>Camps | CampCare+</title>
       </Helmet>
-      <div className='flex justify-between items-center mb-4'>
+      <div className='flex justify-center gap-6 items-center mb-8'>
         <input
           type='text'
           placeholder='Search camps...'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className='border p-2 rounded-md w-32 sm:w-56'
+          className='border border-primary p-2 rounded-md w-32 sm:w-56'
         />
         <select
           value={sortCriteria}
           onChange={(e) => setSortCriteria(e.target.value)}
-          className='border p-2 rounded-md w-32 sm:w-56'
+          className='border border-primary p-2 rounded-md w-32 sm:w-56'
         >
           <option value=''>Sort By</option>
           <option value='most-registered'>Most Registered</option>
@@ -94,14 +94,14 @@ const AvailableCamps = () => {
         <div className='hidden lg:block'>
           <Button onClick={handleLayoutToggle}>
             {layout === "three-column"
-              ? "Two Column Layout"
+              ? "Four Column Layout"
               : "Three Column Layout"}
           </Button>
         </div>
       </div>
       <div
         className={`grid grid-cols-1 md:grid-cols-2 gap-4 lg:${
-          layout === "three-column" ? "grid-cols-3" : "grid-cols-2"
+          layout === "three-column" ? "grid-cols-3" : "grid-cols-4"
         }`}
       >
         {filteredCamps.map((camp) => (
