@@ -16,17 +16,20 @@ const Header = () => {
 
   const toggleMenu = () => setShowMenu(!showMenu);
   // hide mobile menu when click any where outside mobile menu
-  const menuRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const clickOutSide = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
         setShowMenu(false);
       }
     };
     document.addEventListener("mousedown", clickOutSide);
-    return ()=>{
-      document.removeEventListener("mousedown", clickOutSide)
-    }
+    return () => {
+      document.removeEventListener("mousedown", clickOutSide);
+    };
   }, []);
 
   // hide profile when click any where outside profile modal
@@ -117,7 +120,7 @@ const Header = () => {
                     {profile && (
                       <div
                         ref={profileRef}
-                        className='absolute top-[50px] border-2 z-10 w-36 flex flex-col justify-center p-2 space-y-2 bg-white text-black right-0 rounded-xl shadow-md '
+                        className='absolute top-[50px] border-2 w-36 flex flex-col justify-center p-2 space-y-2 bg-white text-black right-0 rounded-xl shadow-md '
                       >
                         <p className='text-sm cursor-not-allowed'>
                           {user?.displayName || "Name not found"}
