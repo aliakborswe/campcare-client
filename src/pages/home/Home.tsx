@@ -6,6 +6,7 @@ import FAQ from "./FAQ";
 import { Helmet } from "react-helmet-async";
 import OurServices from "./OurServices";
 import WorkingProcess from "./WorkingProcess";
+import Comprehensive from "./Comprehensive";
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
       <Review />
       <SendEmail />
       <FAQ />
+      <Comprehensive/>
     </div>
   );
 };

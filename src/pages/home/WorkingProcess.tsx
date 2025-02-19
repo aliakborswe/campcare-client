@@ -33,43 +33,43 @@ const WorkingProcess = () => {
             <div className='sm:mb-28 mx-auto text-center [&_h2]:text-xl [&_h2]:font-semibold space-y-2 p-4'>
               <div className='relative'>
                 <p className='bg-[#800080] text-white w-10 h-10 flex justify-center items-center rounded-full absolute top-0 left-12'>
-                  01
+                  02
                 </p>
                 <img
-                  src={img1}
+                  src={img2}
                   alt='image'
                   className='w-40 h-40 object-contain border-2 border-primary rounded-full mx-auto'
                 />
               </div>
-              <h2>Emergency Care</h2>
+              <h2>Operation Theatre</h2>
               <p>There are many variations of passages Lorem Ipsum available</p>
             </div>
             <div className='sm:mt-28 mx-auto text-center [&_h2]:text-xl [&_h2]:font-semibold space-y-2 p-4'>
               <div className='relative'>
                 <p className='bg-[#800080] text-white w-10 h-10 flex justify-center items-center rounded-full absolute top-0 left-12'>
-                  01
+                  03
                 </p>
                 <img
-                  src={img1}
+                  src={img3}
                   alt='image'
                   className='w-40 h-40 object-contain border-2 border-primary rounded-full mx-auto'
                 />
               </div>
-              <h2>Emergency Care</h2>
+              <h2>Blood Test</h2>
               <p>There are many variations of passages Lorem Ipsum available</p>
             </div>
             <div className='sm:mb-28 mx-auto text-center [&_h2]:text-xl [&_h2]:font-semibold space-y-2 p-4'>
               <div className='relative'>
                 <p className='bg-[#800080] text-white w-10 h-10 flex justify-center items-center rounded-full absolute top-0 left-12'>
-                  01
+                  04
                 </p>
                 <img
-                  src={img1}
+                  src={img4}
                   alt='image'
                   className='w-40 h-40 object-contain border-2 border-primary rounded-full mx-auto'
                 />
               </div>
-              <h2>Emergency Care</h2>
+              <h2>Outdoor Checkup</h2>
               <p>There are many variations of passages Lorem Ipsum available</p>
             </div>
           </div>

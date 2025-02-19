@@ -22,6 +22,8 @@ import CampDetails from "@/pages/campDetails/CampDetails";
 import Dashboard from "@/dashboard/dashboard/Dashboard";
 import Payment from "@/dashboard/user/Payment";
 import UpdateCamp from "@/dashboard/admin/UpdateCamp";
+import Doctors from "@/pages/doctors/Doctors";
+import Gallery from "@/pages/Gallery/Gallery";
 
 const AppRoutes = () => {
   return (
@@ -30,6 +32,8 @@ const AppRoutes = () => {
         <Route index element={<Home />} />
         <Route path='camps' element={<AvailableCamps />} />
         <Route path='camps/:id' element={<CampDetails />} />
+        <Route path='doctors' element={<Doctors />} />
+        <Route path='gallery' element={<Gallery />} />
         <Route path='about' element={<About />} />
       </Route>
       {/* Auth route with base layout */}
