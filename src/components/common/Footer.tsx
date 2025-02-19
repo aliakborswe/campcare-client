@@ -93,13 +93,13 @@ const Footer = () => {
             <Link to='https://www.facebook.com/aliakbor28924'>
               <Facebook />
             </Link>
-            <Link to='https://github.com/aliakbordev'>
+            <Link to='https://github.com/aliakborswe'>
               <Github />
             </Link>
-            <Link to='https://www.linkedin.com/aliakbordev/'>
+            <Link to='https://www.linkedin.com/aliakborswe/'>
               <Linkedin />
             </Link>
-            <Link to='https://x.com/aliakbordev'>
+            <Link to='https://x.com/aliakborswe'>
               <Twitter />
             </Link>
           </div>
