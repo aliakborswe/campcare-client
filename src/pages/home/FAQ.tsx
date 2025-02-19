@@ -59,10 +59,13 @@ const FAQ = () => {
   return (
     <section className='bg-secondary/10 '>
       <Wrapper>
+        <p className='text-center bg-accent w-44 rounded-bl-full rounded-tr-full text-white dark:text-black mb-2 py-1 mx-auto'>
+          FAQ
+        </p>
         <h2 className='text-3xl font-extrabold text-center mb-8'>
           Frequently Asked Questions
         </h2>
-        <div className='space-y-6'>
+        <div>
           {faqData.map((item, index) => (
             <FAQItem
               key={index}
