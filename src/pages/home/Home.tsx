@@ -5,6 +5,7 @@ import Review from "./Review";
 import FAQ from "./FAQ";
 import { Helmet } from "react-helmet-async";
 import OurServices from "./OurServices";
+import WorkingProcess from "./WorkingProcess";
 
 const Home = () => {
   return (
@@ -13,8 +14,9 @@ const Home = () => {
         <title>Home | CampCare+</title>
       </Helmet>
       <Banner />
-      <OurServices/>
+      <WorkingProcess/>
       <PopularCamps />
+      <OurServices/>
       <Review />
       <SendEmail />
       <FAQ />

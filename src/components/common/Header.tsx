@@ -82,11 +82,12 @@ const Header = () => {
             <div className='flex flex-col lg:flex-row gap-6 text-base font-medium text-foreground w-full'>
               <ActiveLink to='/'>Home</ActiveLink>
               <ActiveLink to='/camps'>Available Camps</ActiveLink>
+              <ActiveLink to='/doctors'>Doctors</ActiveLink>
+              <ActiveLink to='/gallery'>Gallery</ActiveLink>
               <ActiveLink to='/about'>About</ActiveLink>
               {user && (
                 <>
                   <ActiveLink to='/dashboard'>Dashboard</ActiveLink>
-                  <ActiveLink to='/gallery'>Gallery</ActiveLink>
                 </>
               )}
             </div>

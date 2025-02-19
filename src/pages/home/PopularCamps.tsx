@@ -33,30 +33,32 @@ const PopularCamps = () => {
       return <Spinner />;
     }
     return (
-      <Wrapper>
-        <p className='text-center bg-accent w-44 rounded-bl-full rounded-tr-full text-white dark:text-black mb-2 py-1 mx-auto'>
-          Camps
-        </p>
-        <h1 className='text-center text-xl md:text-2xl lg:text-3xl font-bold pb-8'>
-          Popular Medical Camps
-        </h1>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-          {camps.map((camp) => (
-            <CampCard key={camp._id} camp={camp} />
-          ))}
-        </div>
-        <div className='flex justify-center mt-6'>
-          <Link to={`/camps`}>
-            <Button
-              variant={"secondary"}
-              size={"lg"}
-              className='text-white dark:text-black'
-            >
-              See all Camp
-            </Button>
-          </Link>
-        </div>
-      </Wrapper>
+      <section className="bg-primary/5">
+        <Wrapper>
+          <p className='text-center bg-accent w-44 rounded-bl-full rounded-tr-full text-white dark:text-black mb-2 py-1 mx-auto'>
+            Camps
+          </p>
+          <h1 className='text-center text-xl md:text-2xl lg:text-3xl font-bold pb-8'>
+            Popular Medical Camps
+          </h1>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {camps.map((camp) => (
+              <CampCard key={camp._id} camp={camp} />
+            ))}
+          </div>
+          <div className='flex justify-center mt-6'>
+            <Link to={`/camps`}>
+              <Button
+                variant={"outline"}
+                size={"lg"}
+                className='border-accent text-black dark:text-white'
+              >
+                See all Camp
+              </Button>
+            </Link>
+          </div>
+        </Wrapper>
+      </section>
     );
 };
 
