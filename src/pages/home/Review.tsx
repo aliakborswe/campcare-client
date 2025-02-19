@@ -49,9 +49,9 @@ const Review = () => {
                 reviews.map((review) => (
                   <CarouselItem
                     key={review._id}
-                    className='md:basis-1/2 lg:basis-1/2  flex items-center'
+                    className='md:basis-1/2 lg:basis-1/2 shadow shadow-primary'
                   >
-                    <Card className='w-full h-full'>
+                    <Card className='w-full h-full flex items-center '>
                       <CardContent className='py-6'>
                         <p className='text-gray-500 pb-1'>{review.feedback}</p>
                         <div className='pt-2 flex items-center justify-between'>

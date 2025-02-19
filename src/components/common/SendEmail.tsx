@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Button } from "../ui/button";
 import { toast } from "react-toastify";
 import Wrapper from "./Wrapper";
+import { Check } from "lucide-react";
 
 const SendEmail = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -30,13 +31,48 @@ const SendEmail = () => {
   };
 
   return (
-    <section className='bg-contact-image bg-no-repeat bg-cover bg-black/50 bg-blend-overlay '>
+    <section>
       <Wrapper>
-        <div className='bg-black/60 rounded-md px-4 pb-8 text-white '>
-          <h1 className='text-xl sm:text-2xl lg:text-3xl font-bold text-center py-8'>
-            Join Us on the Journey
-          </h1>
-          <form ref={form} onSubmit={sendEmail}>
+        <p className='text-center bg-accent w-44 rounded-bl-full rounded-tr-full text-white dark:text-black mb-2 py-1 mx-auto'>
+          Free Appointment
+        </p>
+        <div className='flex flex-col gap-4 justify-between lg:flex-row'>
+          <div className='w-full lg:w-1/2 space-y-6 text-base'>
+            <h1 className='text-2xl lg:text-3xl font-bold text-center'>
+              Free Medical Consultation
+            </h1>
+            <p>
+              We provide a free medical consultation for our patients, Once you
+              submit the request, our office will contact you within one
+              business day to schedule your appointment.
+            </p>
+            <ul className='[&_li]:flex [&_li]:gap-1 space-y-2'>
+              <li>
+                {" "}
+                <Check className='text-primary ' /> Explain your health
+                concerns.
+              </li>
+              <li>
+                {" "}
+                <Check className='text-primary ' /> A Specialist will answer
+                your questions.
+              </li>
+              <li>
+                {" "}
+                <Check className='text-primary ' /> Review your case documents.
+              </li>
+              <li>
+                {" "}
+                <Check className='text-primary ' /> Follow up your medical
+                condition.
+              </li>
+              <li>
+                {" "}
+                <Check className='text-primary ' /> Check your surgery result.
+              </li>
+            </ul>
+          </div>
+          <form ref={form} onSubmit={sendEmail} className='w-full lg:w-1/2'>
             <div className='space-y-6'>
               <div className='flex flex-col gap-6 sm:flex-row justify-between'>
                 <div className='space-y-2 w-full'>
@@ -52,7 +88,7 @@ const SendEmail = () => {
                     type='text'
                     autoComplete='given-name'
                     required
-                    className='w-full bg-transparent border rounded-lg p-2 shadow-lg'
+                    className='w-full border border-primary rounded-lg p-2 shadow-lg'
                   />
                 </div>
                 <div className='space-y-2 w-full'>
@@ -68,7 +104,7 @@ const SendEmail = () => {
                     type='email'
                     autoComplete='email'
                     required
-                    className='w-full bg-transparent border rounded-lg p-2 shadow-lg'
+                    className='w-full border border-primary rounded-lg p-2 shadow-lg'
                   />
                 </div>
               </div>
@@ -84,11 +120,11 @@ const SendEmail = () => {
                   name='message'
                   rows={6}
                   required
-                  className='w-full bg-transparent border rounded-lg p-2 shadow-lg'
+                  className='w-full border border-primary rounded-lg p-2 shadow-lg'
                 />
               </div>
               <Button type='submit' className='w-full hover:bg-primary'>
-                Send Email
+                Request a Free Consultation
               </Button>
             </div>
           </form>
