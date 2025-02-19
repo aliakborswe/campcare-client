@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
+import { Quote } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface Review {
@@ -33,10 +34,13 @@ const Review = () => {
   }, [axiosSecure]); 
 
   return (
-    <section className="bg-primary/5">
+    <section className='bg-primary/5'>
       <Wrapper>
+        <p className='text-center bg-accent w-28 rounded-bl-full rounded-tr-full text-white dark:text-black mb-2 py-1 mx-auto'>
+          Our Clients
+        </p>
         <h1 className='text-center text-xl md:text-2xl lg:text-3xl font-bold pb-8'>
-          Reviews
+          Our Client Happy Say About Us
         </h1>
         <div>
           <Carousel className='px-12'>
@@ -45,29 +49,31 @@ const Review = () => {
                 reviews.map((review) => (
                   <CarouselItem
                     key={review._id}
-                    className='md:basis-1/2 lg:basis-1/3  flex items-center'
+                    className='md:basis-1/2 lg:basis-1/2  flex items-center'
                   >
-                      <Card>
-                        <CardContent className='flex aspect-square items-center justify-center py-6'>
-                          <div className='text-center'>
+                    <Card className='w-full h-full'>
+                      <CardContent className='py-6'>
+                        <p className='text-gray-500 pb-1'>{review.feedback}</p>
+                        <div className='pt-2 flex items-center justify-between'>
+                          <div className='flex items-center space-x-4'>
                             <img
                               src={review.userImage}
                               alt={review.userName}
-                              className='w-28 h-28 rounded-full mx-auto'
+                              className='w-20 h-20 rounded-full border-2 border-primary'
                             />
-                            <h3 className='text-xl font-semibold mt-4'>
-                              {review.userName}
-                            </h3>
-                            <p className='text-gray-500 pb-1'>
-                              {review.feedback}
-                            </p>
-                            <span className='text-yellow-500'>
-                              {"⭐".repeat(review.rating)}
-                            </span>{" "}
-                            {/* Show star rating */}
+                            <div>
+                              <h3 className='text-xl font-semibold mt-4'>
+                                {review.userName}
+                              </h3>
+                              <span className='text-yellow-500'>
+                                {"⭐".repeat(review.rating)}
+                              </span>{" "}
+                            </div>
                           </div>
-                        </CardContent>
-                      </Card>
+                          <Quote size={40} className='text-gray-500' />
+                        </div>
+                      </CardContent>
+                    </Card>
                   </CarouselItem>
                 ))
               ) : (
