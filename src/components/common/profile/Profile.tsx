@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import { Card, CardContent } from "@/components/ui/card";
 import bannerImg from "@/assets/images/user-image.jpg";
-import { BriefcaseBusiness, Mail, Phone, SquarePen, User } from "lucide-react";
+import { BriefcaseBusiness, House, Mail, Phone, SquarePen, User } from "lucide-react";
 
 const updateProfileSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -26,6 +26,7 @@ const updateProfileSchema = z.object({
   contact: z.string().min(1, "Contact is required"),
   profession: z.string(),
   about: z.string(),
+  address: z.string(),
   image: z.instanceof(File).optional(),
 });
 
@@ -51,6 +52,7 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
       contact: data.contact,
       profession: data.profession,
       about: data.about,
+      address:data.address
     },
   });
 
@@ -129,6 +131,10 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
               {data.contact}
             </div>
             <div className='text-lg font-semibold flex gap-2 items-center'>
+              <House />
+              {data.address}
+            </div>
+            <div className='text-lg font-semibold flex gap-2 items-center'>
               <BriefcaseBusiness />
               <p className='break-words w-full '>{data.profession}</p>
             </div>
@@ -171,6 +177,15 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
               </div>
               <div className='bg-background rounded-md py-1 px-3 break-words'>
                 {data.contact}
+              </div>
+            </div>
+            <div className='space-y-2'>
+              <div className='flex items-center gap-2'>
+                <House />
+                Address
+              </div>
+              <div className='bg-background rounded-md py-1 px-3 break-words'>
+                {data.address}
               </div>
             </div>
             <div className='space-y-2'>
@@ -232,6 +247,23 @@ const Profile = ({ data, refetch }: { data: UserType; refetch: any }) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Contact</FormLabel>
+                        <FormControl>
+                          <input
+                            type='text'
+                            {...field}
+                            className='block w-full border border-gray-300 text-black rounded-md py-1 pl-3 shadow-sm'
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='address'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address</FormLabel>
                         <FormControl>
                           <input
                             type='text'

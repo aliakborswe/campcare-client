@@ -6,4 +6,5 @@ export type UserType ={
   profession: string;
   about: string;
   contact: string;
+  address: string;
 }
