@@ -8,63 +8,72 @@ const doctors = [
     name: "Dr. Sophia Carter",
     specialty: "Cardiologist",
     experience: "12 years",
-    image: "",
+    image:
+      "https://plus.unsplash.com/premium_photo-1661766718556-13c2efac1388?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZG9jdG9yfGVufDB8fDB8fHww",
   },
   {
     id: 2,
     name: "Dr. Ethan Williams",
     specialty: "Orthopedic Surgeon",
     experience: "10 years",
-    image: "https://source.unsplash.com/200x200/?doctor,man",
+    image:
+      "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZG9jdG9yfGVufDB8fDB8fHww",
   },
   {
     id: 3,
     name: "Dr. Olivia Thompson",
     specialty: "Pediatrician",
     experience: "8 years",
-    image: "https://source.unsplash.com/200x200/?pediatrician",
+    image:
+      "https://plus.unsplash.com/premium_photo-1661580574627-9211124e5c3f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     id: 4,
     name: "Dr. Noah Patel",
     specialty: "Dermatologist",
     experience: "9 years",
-    image: "https://source.unsplash.com/200x200/?dermatologist",
+    image:
+      "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     id: 5,
     name: "Dr. Emily Garcia",
     specialty: "Gynecologist",
     experience: "11 years",
-    image: "https://source.unsplash.com/200x200/?gynecologist",
+    image:
+      "https://plus.unsplash.com/premium_photo-1661757221486-183030ef8670?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     id: 6,
     name: "Dr. Lucas Kim",
     specialty: "Neurologist",
     experience: "14 years",
-    image: "https://source.unsplash.com/200x200/?neurologist",
+    image:
+      "https://plus.unsplash.com/premium_photo-1681996484614-6afde0d53071?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     id: 7,
     name: "Dr. Ava Robinson",
     specialty: "Oncologist",
     experience: "13 years",
-    image: "https://source.unsplash.com/200x200/?oncologist",
+    image:
+      "https://images.unsplash.com/photo-1622902046580-2b47f47f5471?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     id: 8,
     name: "Dr. Benjamin Lee",
     specialty: "General Surgeon",
     experience: "15 years",
-    image: "https://source.unsplash.com/200x200/?surgeon",
+    image:
+      "https://plus.unsplash.com/premium_photo-1661766569022-1b7f918ac3f3?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     id: 9,
     name: "Dr. Mia Hernandez",
     specialty: "Endocrinologist",
     experience: "10 years",
-    image: "https://source.unsplash.com/200x200/?endocrinologist",
+    image:
+      "https://plus.unsplash.com/premium_photo-1723514536306-26fe5c4adeb7?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzN8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
   },
 ];
 
@@ -90,7 +99,7 @@ const Doctors = () => {
               <img
                 src={doctor.image}
                 alt={doctor.name}
-                className='rounded-full w-32 h-32 object-cover border border-primary'
+                className='rounded-full w-44 h-44 object-cover border border-primary'
               />
               <div>
                 <h3 className='text-xl text-black font-semibold mt-4 flex items-center gap-2'>

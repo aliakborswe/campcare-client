@@ -1,12 +1,12 @@
 import Wrapper from "@/components/common/Wrapper";
-import img1 from "@/assets/images/1-1.png";
-import img2 from "@/assets/images/1-1.png";
-import img3 from "@/assets/images/1-1.png";
-import img4 from "@/assets/images/1-1.png";
-import img5 from "@/assets/images/1-1.png";
-import img6 from "@/assets/images/1-1.png";
-import img8 from "@/assets/images/1-1.png";
-import img7 from "@/assets/images/1-1.png";
+import img1 from "@/assets/images/g1.jpeg";
+import img2 from "@/assets/images/g2.jpeg";
+import img3 from "@/assets/images/g3.jpeg";
+import img4 from "@/assets/images/g4.jpeg";
+import img5 from "@/assets/images/g5.jpeg";
+import img6 from "@/assets/images/g6.jpeg";
+import img8 from "@/assets/images/g7.jpeg";
+import img7 from "@/assets/images/g8.jpeg";
 
 interface GalleryItem {
   src: string;
@@ -79,11 +79,11 @@ const Gallery = () => {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
         {galleryItems.map((item, index) => (
           <div key={index} className='group'>
-            <div className='relative aspect-[4/3] overflow-hidden rounded-lg mb-3'>
+            <div className='relative overflow-hidden rounded-lg mb-3'>
               <img
                 src={item.src}
                 alt={item.alt}
-                className='object-cover transition-transform duration-300 group-hover:scale-105'
+                className='aspect-video transition-transform duration-300 group-hover:scale-105'
               />
             </div>
             <p className='text-sm text-center text-muted-foreground'>
