@@ -90,12 +90,12 @@ const Dashboard = () => {
     fetchCampsLength();
   }, [axiosSecure]);
   return (
-    <div className='px-4 py-6 flex flex-col md:flex-row gap-8'>
+    <div className='px-4 py-6 flex flex-col md:flex-row gap-6'>
       <Helmet>
         <title>Dashboard | CampCare+</title>
       </Helmet>
       {/* cards and charts */}
-      <div className='w-full md:w-2/3 text-black flex flex-col gap-8'>
+      <div className='w-full md:w-3/4 text-black flex flex-col gap-6'>
         <div className='flex gap-4 justify-between'>
           <div className='bg-white shadow-lg rounded-md w-full p-6'>
             <div className=' flex items-center gap-4 justify-between text-xl font-bold'>
@@ -156,22 +156,20 @@ const Dashboard = () => {
         </Card>
       </div>
       {/* Feedback and Rating */}
-      <div className='w-full md:w-1/3 flex justify-center'>
-        {/* <h1 className='text-xl font-bold'>Feedback</h1> */}
+      <div className='w-full md:w-1/4 flex flex-col gap-2 items-center'>
+        <h1 className='text-xl text-start w-full font-bold'>Feedback</h1>
         <Carousel
           opts={{
             align: "start",
+            loop: true,
           }}
           orientation='vertical'
           className='w-full max-w-xs'
         >
-          <CarouselContent className=''>
+          <CarouselContent className='-mt-1 h-[330px] sm:h-[490px] flex flex-col gap-1'>
             {reviews.length > 0 ? (
               reviews.map((review) => (
-                <CarouselItem
-                  key={review._id}
-                  className='md:basis-1/2 lg:basis-1/3 shadow-lg flex items-center'
-                >
+                <CarouselItem key={review._id} className='pt-1 md:basis-1/2'>
                   <Card>
                     <CardContent className='flex aspect-square items-center justify-center'>
                       <div className='text-center'>

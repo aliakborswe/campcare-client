@@ -48,57 +48,57 @@ const Sidebar = ({ overlayRef, handleOverlayClick, sidebarRef }: Props) => {
           <SidebarLogo label='CampCare+' src={logo} to='/' />
           <ul className='mt-6 border-b border-[#eee] pb-4 text-base font-medium'>
             <SidebarLink
-              label='Dashboard'
+              label='Overview'
               icon={LayoutDashboard}
               to='/dashboard'
             />
             {role === "admin" ? (
               <>
                 {/* admin sidebar menu */}
-                  <SidebarLink
-                    label='Admin Profile'
-                    icon={UserRoundCog}
-                    to='admin-profile'
-                  />
-                  <SidebarLink
-                    label='Add Camp'
-                    icon={ClipboardPlus}
-                    to='add-camp'
-                  />
-                  <SidebarLink
-                    label='Manage Camp'
-                    icon={SquareKanban}
-                    to='manage-camp'
-                  />
-                  <SidebarLink
-                    label='Manage Register Camp'
-                    icon={NotepadText}
-                    to='manage-registered-camp'
-                  />
+                <SidebarLink
+                  label='Admin Profile'
+                  icon={UserRoundCog}
+                  to='admin-profile'
+                />
+                <SidebarLink
+                  label='Add Camp'
+                  icon={ClipboardPlus}
+                  to='add-camp'
+                />
+                <SidebarLink
+                  label='Manage Camp'
+                  icon={SquareKanban}
+                  to='manage-camp'
+                />
+                <SidebarLink
+                  label='Manage Register Camp'
+                  icon={NotepadText}
+                  to='manage-registered-camp'
+                />
               </>
             ) : (
               <>
                 {/* user sidebar menu */}
-                  <SidebarLink
-                    label='Analytics'
-                    icon={ChartNoAxesCombined}
-                    to='analytics'
-                  />
-                  <SidebarLink
-                    label='User Profile'
-                    icon={UserRoundCog}
-                    to='user-profile'
-                  />
-                  <SidebarLink
-                    label='Registered Camps'
-                    icon={NotepadText}
-                    to='registered-camp'
-                  />
-                  <SidebarLink
-                    label='Payment History'
-                    icon={BadgeDollarSign}
-                    to='payment-history'
-                  />
+                <SidebarLink
+                  label='Analytics'
+                  icon={ChartNoAxesCombined}
+                  to='analytics'
+                />
+                <SidebarLink
+                  label='User Profile'
+                  icon={UserRoundCog}
+                  to='user-profile'
+                />
+                <SidebarLink
+                  label='Registered Camps'
+                  icon={NotepadText}
+                  to='registered-camp'
+                />
+                <SidebarLink
+                  label='Payment History'
+                  icon={BadgeDollarSign}
+                  to='payment-history'
+                />
               </>
             )}
           </ul>

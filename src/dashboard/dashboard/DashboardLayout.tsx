@@ -17,7 +17,7 @@ const DashboardLayout = () => {
   const mainRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
-  const { isCollapsed  } = useAppSelector((state) => state.dashboardSidebar);
+  const { isCollapsed } = useAppSelector((state) => state.dashboardSidebar);
   const handleMenuBarClick = () => {
     dispatch(toggleSidebarCollapse());
     if (!isCollapsed) {
@@ -46,7 +46,7 @@ const DashboardLayout = () => {
   }, []);
 
   return (
-    <div className='dashboard pb-[110px] !font-inter text-sm sm:pb-[0px] max-w-[1900px] mx-auto'>
+    <div className='dashboard pb-[110px] !font-inter text-sm sm:pb-[0px] mx-auto'>
       {/* Sidebar */}
       <Sidebar
         overlayRef={overlayRef}
