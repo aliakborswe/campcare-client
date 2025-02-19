@@ -45,6 +45,8 @@ const AvailableCamps = () => {
       filtered.sort((a, b) => b.participantCount - a.participantCount);
     } else if (sortCriteria === "camp-fees") {
       filtered.sort((a, b) => Number(a.campFees) - Number(b.campFees));
+    } else if (sortCriteria === "camp-fees-HL") {
+      filtered.sort((a, b) => Number(b.campFees) - Number(a.campFees));
     } else if (sortCriteria === "alphabetical") {
       filtered.sort((a, b) => a.campName.localeCompare(b.campName));
     }
@@ -89,6 +91,7 @@ const AvailableCamps = () => {
           <option value=''>Sort By</option>
           <option value='most-registered'>Most Registered</option>
           <option value='camp-fees'>Camp Fees(L-H)</option>
+          <option value='camp-fees-HL'>Camp Fees(H-L)</option>
           <option value='alphabetical'>Alphabetical Order(A-Z)</option>
         </select>
         <div className='hidden lg:block'>
