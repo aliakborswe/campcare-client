@@ -65,7 +65,7 @@ const Login = () => {
   }
 
   return (
-    <Wrapper className='flex flex-col md:flex-row items-center justify-center gap-4 '>
+    <Wrapper className='flex flex-col md:flex-row-reverse items-center justify-center gap-4 '>
       <Helmet>
         <title>Login</title>
       </Helmet>

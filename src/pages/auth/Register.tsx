@@ -69,7 +69,7 @@ const Register = () => {
   }
 
   return (
-    <Wrapper className='flex flex-col md:flex-row items-center justify-between gap-4 '>
+    <Wrapper className='flex flex-col md:flex-row-reverse items-center justify-between gap-4 '>
       <Helmet>
         <title>Register</title>
       </Helmet>
