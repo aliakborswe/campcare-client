@@ -34,6 +34,9 @@ const PopularCamps = () => {
     }
     return (
       <Wrapper>
+        <p className='text-center bg-accent w-44 rounded-bl-full rounded-tr-full text-white dark:text-black mb-2 py-1 mx-auto'>
+          Camps
+        </p>
         <h1 className='text-center text-xl md:text-2xl lg:text-3xl font-bold pb-8'>
           Popular Medical Camps
         </h1>
@@ -44,7 +47,11 @@ const PopularCamps = () => {
         </div>
         <div className='flex justify-center mt-6'>
           <Link to={`/camps`}>
-            <Button variant={"secondary"} size={"lg"} className='text-white dark:text-black'>
+            <Button
+              variant={"secondary"}
+              size={"lg"}
+              className='text-white dark:text-black'
+            >
               See all Camp
             </Button>
           </Link>

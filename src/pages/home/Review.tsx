@@ -36,7 +36,7 @@ const Review = () => {
   return (
     <section className='bg-primary/5'>
       <Wrapper>
-        <p className='text-center bg-accent w-28 rounded-bl-full rounded-tr-full text-white dark:text-black mb-2 py-1 mx-auto'>
+        <p className='text-center bg-accent w-44 rounded-bl-full rounded-tr-full text-white dark:text-black mb-2 py-1 mx-auto'>
           Our Clients
         </p>
         <h1 className='text-center text-xl md:text-2xl lg:text-3xl font-bold pb-8'>
