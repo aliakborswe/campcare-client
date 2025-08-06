@@ -9,13 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
