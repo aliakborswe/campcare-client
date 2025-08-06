@@ -1,4 +1,3 @@
-
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link,  useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import Wrapper from "@/components/common/Wrapper";
@@ -70,6 +69,15 @@ const Login = () => {
         <title>Login</title>
       </Helmet>
       <div className='w-full md:w-1/2'>
+        <div className='mb-4 space-y-1 bg-primary/10 p-4 rounded-md'>
+          <div className='font-bold text-primary'>Admin Login information</div>
+          <div>
+            <b>Email:</b> admin@gmail.com
+          </div>
+          <div>
+            <b>Password: </b>asd123A
+          </div>
+        </div>
         <SocialLogin />
         <Form {...form}>
           <form

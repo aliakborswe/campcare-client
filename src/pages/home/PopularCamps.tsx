@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CampCard from "@/components/common/CampCard";
 import Spinner from "@/components/common/Spinner";
 import Wrapper from "@/components/common/Wrapper";
@@ -41,7 +42,7 @@ const PopularCamps = () => {
           <h1 className='text-center text-xl md:text-2xl lg:text-3xl font-bold pb-8'>
             Popular Medical Camps
           </h1>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8'>
             {camps.map((camp) => (
               <CampCard key={camp._id} camp={camp} />
             ))}

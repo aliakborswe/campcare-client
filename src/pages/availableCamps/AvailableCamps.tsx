@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Wrapper from "@/components/common/Wrapper";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { CampInterface } from "@/utils/campInterface";
@@ -103,7 +104,7 @@ const AvailableCamps = () => {
         </div>
       </div>
       <div
-        className={`grid grid-cols-1 md:grid-cols-2 gap-4 lg:${
+        className={`grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 lg:${
           layout === "three-column" ? "grid-cols-3" : "grid-cols-4"
         }`}
       >

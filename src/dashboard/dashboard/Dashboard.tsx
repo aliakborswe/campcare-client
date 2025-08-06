@@ -40,19 +40,9 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface Review {
-  _id: string;
-  userName: string;
-  userEmail: string;
-  feedback: string;
-  rating: number;
-  userImage: string;
-}
-
 const Dashboard = () => {
   const [campsLength, setCampsLength] = useState<number>(0);
   const [participantsLength, setParticipantsLength] = useState<number>(0);
-  const [reviews, setReviews] = useState<Review[]>([]);
   const axiosSecure = useAxiosSecure();
 
   const chartData = [
@@ -64,18 +54,6 @@ const Dashboard = () => {
     },
   ];
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axiosSecure.get("/feedback");
-        setReviews(response.data);
-      } catch (err: any) {
-        console.error(err.message);
-      }
-    };
-
-    fetchReviews();
-  }, [axiosSecure]);
   useEffect(() => {
     const fetchCampsLength = async () => {
       try {
@@ -154,50 +132,6 @@ const Dashboard = () => {
             </div>
           </CardFooter>
         </Card>
-      </div>
-      {/* Feedback and Rating */}
-      <div className='w-full md:w-1/4 flex flex-col gap-2 items-center'>
-        <h1 className='text-xl text-start w-full font-bold'>Feedback</h1>
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          orientation='vertical'
-          className='w-full max-w-xs'
-        >
-          <CarouselContent className='-mt-1 h-[330px] sm:h-[490px] flex flex-col gap-1'>
-            {reviews.length > 0 ? (
-              reviews.map((review) => (
-                <CarouselItem key={review._id} className='pt-1 md:basis-1/2'>
-                  <Card>
-                    <CardContent className='flex aspect-square items-center justify-center'>
-                      <div className='text-center'>
-                        <img
-                          src={review.userImage}
-                          alt={review.userName}
-                          className='w-20 h-20 rounded-full mx-auto'
-                        />
-                        <h3 className='text-xl font-semibold mt-4'>
-                          {review.userName}
-                        </h3>
-                        <p className='text-gray-500 pb-1'>{review.feedback}</p>
-                        <span className='text-yellow-500'>
-                          {"⭐".repeat(review.rating)}
-                        </span>{" "}
-                        {/* Show star rating */}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))
-            ) : (
-              <div>Loading reviews...</div>
-            )}
-          </CarouselContent>
-          <CarouselPrevious className=' -top-0' />
-          <CarouselNext className='-bottom-0' />
-        </Carousel>
       </div>
     </div>
   );
