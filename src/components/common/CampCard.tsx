@@ -22,7 +22,7 @@ interface CampCardProps {
 
 const CampCard = ({ camp }: CampCardProps) => {
   return (
-    <Card className='flex flex-col gap-2 border-none justify-between shadow-xl shadow-primary/20'>
+    <Card className='flex flex-col gap-2 border justify-between hover:shadow-xl hover:shadow-primary/20 p-4'>
       <CardHeader className='p-0'>
         <CardTitle>
           <img

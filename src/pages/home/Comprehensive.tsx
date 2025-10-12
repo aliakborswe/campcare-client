@@ -1,6 +1,6 @@
 import Wrapper from '@/components/common/Wrapper';
 import { Check } from 'lucide-react';
-import img1 from '@/assets/images/home-1-2.webp'
+import img1 from '@/assets/images/2.jpg'
 import { Link } from 'react-router';
 import { Button } from '@/components/ui/button';
 
