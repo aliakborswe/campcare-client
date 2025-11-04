@@ -124,8 +124,8 @@ const RegisteredCamps = () => {
         // setData(res.data);
         const data = res.data.map((d: any) => ({
           ...d,
-          campName: d.campId.campName,
-          campFees: d.campId.campFees,
+          campName: d.campId?.campName,
+          campFees: d.campId?.campFees,
         }));
         setData(data);
       } catch (err: any) {
